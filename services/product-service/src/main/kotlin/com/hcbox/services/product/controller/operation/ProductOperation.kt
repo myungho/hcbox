@@ -1,7 +1,6 @@
-package com.hcbox.api.controller
+package com.hcbox.services.product.controller.operation
 
 import com.hcbox.api.dto.ProductDto
-import com.hcbox.api.service.ProductService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.ParameterIn
@@ -9,16 +8,14 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Mono
 import javax.validation.Valid
 
-@RestController
 @RequestMapping("/products")
-class ProductController(
-    private val productService: ProductService,
-) {
+@Tag(name = "Products", description = "Products")
+interface ProductOperation {
     @PostMapping
     @Operation(summary = "생성")
     @ApiResponses(
@@ -30,39 +27,39 @@ class ProductController(
     )
     fun create(
         @RequestBody productUpsertDto: @Valid ProductDto.ProductUpsertDto
-    ): ResponseEntity<*> {
-        val created = productService.create(productUpsertDto)
-        return ResponseEntity.status(HttpStatus.CREATED).body(created)
-    }
+    ): Mono<ProductDto.ProductReadDto>
 
     @GetMapping("/{id}")
     @Operation(summary = "조회")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
     fun read(
-        @Parameter(description = "id", `in` = ParameterIn.PATH, required = true) @PathVariable id: Long,
-    ): ResponseEntity<*> {
-        val dto = productService.findById(id)
-        return ResponseEntity.ok(dto)
-    }
+        @Parameter(
+            description = "id",
+            `in` = ParameterIn.PATH,
+            required = true
+        ) @PathVariable id: Long,
+    ): Mono<ProductDto.ProductReadDto>
 
     @PutMapping("/{id}")
     @Operation(summary = "업데이트")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
     fun update(
-        @Parameter(description = "id", `in` = ParameterIn.PATH, required = true) @PathVariable id: Long,
+        @Parameter(
+            description = "id",
+            `in` = ParameterIn.PATH,
+            required = true
+        ) @PathVariable id: Long,
         @RequestBody productUpsertDto: @Valid ProductDto.ProductUpsertDto
-    ): ResponseEntity<*> {
-        val dto = productService.update(id, productUpsertDto)
-        return ResponseEntity.ok(dto)
-    }
+    ): Mono<ProductDto.ProductReadDto>
 
     @DeleteMapping("/{id}")
     @Operation(summary = "삭제")
     @ApiResponses(value = [ApiResponse(responseCode = "204", description = "No Content")])
     fun delete(
-        @Parameter(description = "id", `in` = ParameterIn.PATH, required = true) @PathVariable id: Long,
-    ): ResponseEntity<*> {
-        productService.delete(id)
-        return ResponseEntity<Any>(HttpStatus.NO_CONTENT)
-    }
+        @Parameter(
+            description = "id",
+            `in` = ParameterIn.PATH,
+            required = true
+        ) @PathVariable id: Long,
+    ): Mono<Void>
 }

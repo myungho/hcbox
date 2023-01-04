@@ -1,6 +1,7 @@
-package com.hcbox.api.mapper
+package com.hcbox.services.product.mapper
 
 import com.hcbox.api.dto.ProductDto
+import com.hcbox.services.product.dao.ProductEntity
 import org.mapstruct.Mapper
 
 @Mapper(componentModel = "spring")
