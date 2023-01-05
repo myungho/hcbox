@@ -10,7 +10,8 @@ spring:
       maxInterval: 10000
       maxAttempts: 20
     uri: http://${app.config-server}:8888
-
+  config:
+    import: "optional:configserver:"
 ---
 spring.profiles: docker
 
