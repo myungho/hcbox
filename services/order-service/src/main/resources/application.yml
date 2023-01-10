@@ -1,7 +1,7 @@
 app.config-server: localhost
 
 spring:
-  application.name: product
+  application.name: order
   cloud.config:
     failFast: true
     retry:
