@@ -15,8 +15,8 @@ class OrderService(
     private val orderRepository: OrderRepository,
     private val mapper: OrderMapper,
 ) {
-    fun create(Order: OrderDto.OrderUpsertDto): Mono<OrderDto.OrderReadDto> {
-        return Mono.fromCallable { orderRepository.save(mapper.toEntity(Order)) }
+    fun create(order: OrderDto.OrderUpsertDto): Mono<OrderDto.OrderReadDto> {
+        return Mono.fromCallable { orderRepository.save(mapper.toEntity(order)) }
             .map { entity -> mapper.toDto(entity) }
             .subscribeOn(Schedulers.boundedElastic()).log()
     }
@@ -48,7 +48,7 @@ class OrderService(
                 .map { entity ->
                     entity.memberId = orderUpsertDto.memberId
                     entity.couponId = orderUpsertDto.couponId
-                    entity.stcd = StcdConstant.ORDER_STCD_RECEIPT
+                    entity.statusCode = StcdConstant.ORDER_STATUS_CODE_RECEIPT
                     entity.orderDate = orderUpsertDto.orderDate
                     entity.phone = orderUpsertDto.phone
                     entity.address = orderUpsertDto.address

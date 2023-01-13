@@ -39,6 +39,8 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven(url = "https://packages.confluent.io/maven")
+    maven(url = "https://repo.spring.io/plugins-release")
 }
 
 dependencies {
@@ -55,13 +57,13 @@ dependencies {
 
     implementation("com.querydsl:querydsl-jpa:$querydslVersion")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.14")
-    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.security:spring-security-oauth2-resource-server")
-    implementation("org.springframework.security:spring-security-oauth2-jose")
+//    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.0")
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
+
+    implementation("io.confluent:kafka-avro-serializer:5.3.0")
+    implementation("com.sksamuel.avro4k:avro4k-core:0.41.0")
 
     // local JAR
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf( "*.jar"))))

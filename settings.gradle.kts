@@ -15,3 +15,5 @@ include("spring-cloud:config-server")
 findProject(":spring-cloud:config-server")?.name = "config-server"
 include("spring-cloud:config-server")
 findProject(":spring-cloud:config-server")?.name = "config-server"
+include("services:view-service")
+findProject(":services:view-service")?.name = "view-service"

@@ -16,6 +16,7 @@ plugins {
     kotlin("plugin.spring") version "1.7.20"
     kotlin("plugin.jpa") version "1.7.20"
     kotlin("plugin.serialization") version "1.7.20"
+
 }
 
 allOpen {
@@ -38,8 +39,24 @@ configurations {
 }
 
 repositories {
-    mavenCentral()
+    gradlePluginPortal()
+    jcenter()
+    maven {
+        name = "JCenter Gradle Plugins"
+        url  = uri ("https://dl.bintray.com/gradle/gradle-plugins")
+    }
+    maven {
+        url = uri ("https://packages.confluent.io/maven")
+    }
 }
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+
 
 dependencies {
     val querydslVersion = "5.0.0"
@@ -53,6 +70,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.glassfish:jakarta.el:3.0.3")
 
+    implementation("org.springframework.kafka:spring-kafka")
 
     implementation("com.querydsl:querydsl-jpa:$querydslVersion")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.14")

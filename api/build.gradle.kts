@@ -36,12 +36,18 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven(url = "https://packages.confluent.io/maven")
+    maven(url = "https://repo.spring.io/plugins-release")
 }
 
 dependencies {
     implementation(project(":common"))
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation (group= "org.springdoc", name="springdoc-openapi-webflux-ui", version = "1.5.2")
+    implementation("io.confluent:kafka-avro-serializer:5.3.0")
+    implementation("com.sksamuel.avro4k:avro4k-core:0.41.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+
 }
 
 tasks.withType<KotlinCompile> {

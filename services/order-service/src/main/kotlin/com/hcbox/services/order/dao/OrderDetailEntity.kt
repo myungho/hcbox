@@ -6,34 +6,33 @@ import javax.persistence.*
 
 @Entity
 @Table(
-    name = "ORDER",
+    name = "ORDER_DETAIL",
     indexes = [Index(
-        name = "I01_CART",
-        columnList = "MEMBER_ID"
+        name = "I01_ORDER_DETAIL",
+        columnList = "ORDER_ID"
     )],
     uniqueConstraints = [UniqueConstraint(
-        name = "UK1_CART",
-        columnNames = ["MEMBER_ID", "PRODUCT_ID"]
+        name = "UK1_ORDER_DETAIL",
+        columnNames = ["ORDER_ID", "PRODUCT_ID"]
     )]
 )
-class OrderDetailEntity(
+class OrderDetailEntity : BaseEntity() {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_ORDER_ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_ORDER_DETAIL_ID")
     @SequenceGenerator(
-        name = "SQ_CART_ID",
-        sequenceName = "SQ_CART_ID",
+        name = "SQ_ORDER_DETAIL_ID",
+        sequenceName = "SQ_ORDER_DETAIL_ID",
         allocationSize = 1
     )
     @Column(name = "ID", nullable = false, precision = 20)
-    val id: Long = 0,
+    val id: Long = 0
 
     @Column(name = "ORDER_ID")
-    var orderId: Long,
+    var orderId: Long? = null
 
     @Column(name = "PRODUCT_ID")
-    var productId: Long,
+    var productId: Long? = null
 
     @Column(name = "QUANTITY", nullable = false, precision = 3)
-    var quantity: Long
-
-) : BaseEntity()
+    var quantity: Long? = null
+}

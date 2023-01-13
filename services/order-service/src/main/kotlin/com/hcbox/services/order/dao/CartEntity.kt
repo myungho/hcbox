@@ -16,7 +16,7 @@ import javax.persistence.*
         columnNames = ["MEMBER_ID", "PRODUCT_ID"]
     )]
 )
-class CartEntity(
+class CartEntity: BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_CART_ID")
     @SequenceGenerator(
@@ -25,15 +25,15 @@ class CartEntity(
         allocationSize = 1
     )
     @Column(name = "ID", nullable = false, precision = 20)
-    val id: Long = 0,
+    val id: Long = 0
 
     @Column(name = "MEMBER_ID")
-    var memberId: Long,
+    var memberId: Long? = null
 
     @Column(name = "PRODUCT_ID")
-    var productId: Long,
+    var productId: Long? = null
 
     @Column(name = "QUANTITY", nullable = false, precision = 10)
-    var quantity: Long
+    var quantity: Long? = null
 
-) : BaseEntity()
+}

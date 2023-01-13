@@ -8,6 +8,9 @@ plugins {
     idea
     java
 
+    kotlin("plugin.lombok") version "1.7.20"
+    id("io.freefair.lombok") version "5.3.0"
+
     kotlin("jvm") version "1.7.20"
     kotlin("kapt") version "1.7.20"
     kotlin("plugin.spring") version "1.7.20"
@@ -27,7 +30,7 @@ version = ""
 java.sourceCompatibility = JavaVersion.VERSION_11
 java.targetCompatibility = JavaVersion.VERSION_11
 
-description = "product-service"
+description = "view-service"
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
@@ -35,8 +38,18 @@ configurations {
 }
 
 repositories {
-    mavenCentral()
+    gradlePluginPortal()
+    maven(url = "https://packages.confluent.io/maven")
+    maven(url = "https://repo.spring.io/plugins-release")
 }
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+
 
 dependencies {
     val querydslVersion = "5.0.0"
@@ -46,20 +59,30 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-//    implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
+    implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.glassfish:jakarta.el:3.0.3")
 
+    implementation("io.confluent:kafka-avro-serializer:5.3.0")
+    implementation("com.sksamuel.avro4k:avro4k-core:0.41.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+
     implementation("com.querydsl:querydsl-jpa:$querydslVersion")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.14")
-
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-oauth2-resource-server")
+    implementation("org.springframework.security:spring-security-oauth2-jose")
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.0")
-
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
 
     // local JAR
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf( "*.jar"))))
+
+    compileOnly("org.projectlombok:lombok")
+
+    annotationProcessor("org.projectlombok:lombok")
 
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     runtimeOnly("com.h2database:h2")

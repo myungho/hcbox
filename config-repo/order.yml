@@ -8,6 +8,7 @@ spring:
   h2:
     console:
       enabled: true
+      path: /h2-console
   jpa:
     properties:
       hibernate:
@@ -15,10 +16,25 @@ spring:
         format_sql: true
         use_sql_comments: true
 
+  cloud.stream:
+    defaultBinder: kafka
+    default.contentType: application/json
+    bindings.input:
+      destination: orders
+      group: orderGroup
+    bindings.input.consumer:
+      maxAttempts: 3
+      backOffInitialInterval: 500
+      backOffMaxInterval: 1000
+      backOffMultiplier: 2.0
+    kafka.binder:
+      brokers: 127.0.0.1
+      defaultBrokerPort: 9092
+
   datasource:
     initialize: true
     driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     spring:
       jpa:

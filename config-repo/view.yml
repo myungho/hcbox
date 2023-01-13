@@ -1,5 +1,5 @@
 server:
-  port: 9080
+  port: 9090
 
 spring:
   config:
@@ -8,20 +8,28 @@ spring:
   h2:
     console:
       enabled: true
+      path: /h2-console
   jpa:
     properties:
       hibernate:
         show_sql: true
         format_sql: true
         use_sql_comments: true
-  kafka.consumer:
-    key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-    value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+
+  cloud.stream:
+    kafka.binder:
+      brokers: 127.0.0.1
+      defaultBrokerPort: 9092
+    function:
+      definition: orderCreated;
+    bindings:
+      orderCreated-out-0:
+        destination: order-created-topic
 
   datasource:
     initialize: true
     driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     spring:
       jpa:
