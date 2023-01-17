@@ -1,0 +1,2 @@
+- Topic rule
+- [namespace].[message-type].[version number]
