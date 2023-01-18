@@ -16,15 +16,22 @@ spring:
         format_sql: true
         use_sql_comments: true
 
-  cloud.stream:
+  cloud:
+    stream:
+      bindings:
+        orderEventProcessor-out-0:
+          destination: order-events-v1
+          content-type: application/*+avro
+          producer.configuration:
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+
     kafka.binder:
       brokers: 127.0.0.1
       defaultBrokerPort: 9092
-    function:
-      definition: orderCreated;
-    bindings:
-      orderCreated-out-0:
-        destination: order-created-topic
+      configuration:
+        acks: all
+
 
   datasource:
     initialize: true

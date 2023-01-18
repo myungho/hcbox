@@ -10,6 +10,6 @@ class CompositeOrderService(private val streamBridge: StreamBridge) {
 
     fun create(orderEvent: OrderEvent) {
         val avroRecord = Avro.default.toRecord(OrderEvent.serializer(), orderEvent)
-        streamBridge.send("orderCreated", avroRecord)
+        streamBridge.send("orderEventProcessor-out-0", avroRecord)
     }
 }
