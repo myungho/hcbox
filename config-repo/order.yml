@@ -16,18 +16,11 @@ spring:
         format_sql: true
         use_sql_comments: true
   cloud:
-    function:
-      definition: orderConsumer; # 함수 이름
     stream:
-      default:
-        consumer:
-          useNativeEncoding: on
-        contentType: application/*+avro
-
       bindings:
-        order-in-0:
-          destination: hcbox.order.0
-          group: orderGroup-1
+        orderEventProcessor-in-0:
+          destination: order-events-v1
+          group: order-service
           content-type: application/*+avro
           consumer.configuration:
             key.deserializer: org.apache.kafka.common.serialization.StringSerializer
