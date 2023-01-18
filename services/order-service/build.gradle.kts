@@ -8,9 +8,6 @@ plugins {
     idea
     java
 
-    kotlin("plugin.lombok") version "1.7.20"
-    id("io.freefair.lombok") version "5.3.0"
-
     kotlin("jvm") version "1.7.20"
     kotlin("kapt") version "1.7.20"
     kotlin("plugin.spring") version "1.7.20"
@@ -52,12 +49,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
+//    implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.glassfish:jakarta.el:3.0.3")
 
     implementation("com.querydsl:querydsl-jpa:$querydslVersion")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.14")
-//    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.0")
     implementation("org.mapstruct:mapstruct:1.5.3.Final")

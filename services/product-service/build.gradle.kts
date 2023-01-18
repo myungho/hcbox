@@ -36,6 +36,8 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven(url = "https://packages.confluent.io/maven")
+    maven(url = "https://repo.spring.io/plugins-release")
 }
 
 dependencies {
@@ -57,6 +59,10 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.0")
 
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
+
+    implementation("io.confluent:kafka-avro-serializer:5.3.0")
+    implementation("com.sksamuel.avro4k:avro4k-core:0.41.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
     // local JAR
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf( "*.jar"))))

@@ -19,22 +19,28 @@ spring:
     function:
       definition: orderConsumer; # 함수 이름
     stream:
+      default:
+        consumer:
+          useNativeEncoding: on
+        contentType: application/*+avro
+
       bindings:
-        orderConsumer-in-0:
-          destination: backoffice-auth.local.logging.access-info.json #
+        order-in-0:
+          destination: hcbox.order.0
+          group: orderGroup-1
+          content-type: application/*+avro
+          consumer.configuration:
+            key.deserializer: org.apache.kafka.common.serialization.StringSerializer
+            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+#            schema.registry.url: some.registry.io
+
       kafka:
         binder:
           brokers: localhost
           defaultBrokerPort: 9092
           configuration:
             acks: all
-        bindings:
-          orderConsumer-in-0:
-            group: order-consumer
-            destination: hcbox.order.0
-            consumer.configuration:
-              key.deserializer: org.apache.kafka.common.serialization.StringSerializer
-              value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+
   datasource:
     initialize: true
     driverClassName: org.h2.Driver

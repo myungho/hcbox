@@ -1,17 +1,15 @@
 package com.hcbox.services.view.service
 
-import com.hcbox.api.dto.OrderDto
+import com.hcbox.api.dto.kafka.OrderEvent
 import com.sksamuel.avro4k.Avro
 import org.springframework.cloud.stream.function.StreamBridge
 import org.springframework.stereotype.Service
 
-
 @Service
 class CompositeOrderService(private val streamBridge: StreamBridge) {
 
-    fun create(orderUpsertDto: OrderDto.OrderUpsertDto) {
-        val avroRecord = Avro.default.toRecord(OrderDto.OrderUpsertDto.serializer(), orderUpsertDto)
+    fun create(orderEvent: OrderEvent) {
+        val avroRecord = Avro.default.toRecord(OrderEvent.serializer(), orderEvent)
         streamBridge.send("orderCreated", avroRecord)
     }
-
 }
