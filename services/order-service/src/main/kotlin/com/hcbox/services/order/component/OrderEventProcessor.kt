@@ -1,14 +1,16 @@
 package com.hcbox.services.order.component
 
 import com.hcbox.api.dto.kafka.OrderEvent
-import com.hcbox.api.message.Event
+import com.sksamuel.avro4k.Avro
+import org.apache.avro.generic.GenericData
 import org.springframework.stereotype.Component
 import java.util.function.Consumer
 
 @Component("orderEventProcessor")
-class OrderEventProcessor : Consumer<Event<Long, OrderEvent>> {
+class OrderEventProcessor : Consumer<GenericData.Record> {
 
-    override fun accept(message: Event<Long, OrderEvent>) {
-        println(message)
+    override fun accept(record: GenericData.Record) {
+        val event = Avro.default.fromRecord(OrderEvent.serializer(), record)
+        println(event)
     }
 }

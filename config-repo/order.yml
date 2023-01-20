@@ -22,17 +22,24 @@ spring:
           destination: order-events-v1
           group: order-service
           content-type: application/*+avro
-          consumer.configuration:
-            key.deserializer: org.apache.kafka.common.serialization.StringSerializer
-            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-#            schema.registry.url: some.registry.io
-
+          consumer.use-native-encoding: true
       kafka:
         binder:
           brokers: localhost
           defaultBrokerPort: 9092
           configuration:
             acks: all
+            schema.registry.url: http://localhost:8081
+
+spring.kafka:
+  properties:
+    schema.registry.url: http://localhost:8081
+  producer:
+    key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+  consumer:
+    key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+    value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
 
   datasource:
     initialize: true

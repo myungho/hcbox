@@ -49,8 +49,6 @@ buildscript {
     }
 }
 
-
-
 dependencies {
     val querydslVersion = "5.0.0"
 
@@ -69,20 +67,12 @@ dependencies {
 
     implementation("com.querydsl:querydsl-jpa:$querydslVersion")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.14")
-    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.security:spring-security-oauth2-resource-server")
-    implementation("org.springframework.security:spring-security-oauth2-jose")
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.0")
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
 
     // local JAR
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf( "*.jar"))))
-
-    compileOnly("org.projectlombok:lombok")
-
-    annotationProcessor("org.projectlombok:lombok")
 
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     runtimeOnly("com.h2database:h2")

@@ -1,6 +1,6 @@
 package com.hcbox.common.constant
 
-class StcdConstant {
+class StatusConstant {
     companion object {
         const val ORDER_STATUS_CODE_RECEIPT = "01";
     }

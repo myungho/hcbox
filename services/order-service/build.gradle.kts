@@ -49,7 +49,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
-//    implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.glassfish:jakarta.el:3.0.3")
 
@@ -67,8 +66,6 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf( "*.jar"))))
 
     compileOnly("org.projectlombok:lombok")
-
-    annotationProcessor("org.projectlombok:lombok")
 
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     runtimeOnly("com.h2database:h2")

@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: 8088
 
 spring:
   config:
@@ -15,23 +15,32 @@ spring:
         show_sql: true
         format_sql: true
         use_sql_comments: true
-
   cloud:
     stream:
       bindings:
         orderEventProcessor-out-0:
           destination: order-events-v1
           content-type: application/*+avro
-          producer.configuration:
-            key.serializer: org.apache.kafka.common.serialization.StringSerializer
-            value.serializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+          producer:
+            client-id: view
+            use-native-encoding: true
+            configuration:
+              key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+              value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
 
-    kafka.binder:
-      brokers: 127.0.0.1
-      defaultBrokerPort: 9092
-      configuration:
-        acks: all
+      kafka.binder:
+        brokers: 127.0.0.1
+        defaultBrokerPort: 9092
+        configuration:
+          acks: all
+        auto-add-partitions: true
 
+spring.kafka:
+  properties:
+    schema.registry.url: http://localhost:8081
+  producer:
+    key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
 
   datasource:
     initialize: true

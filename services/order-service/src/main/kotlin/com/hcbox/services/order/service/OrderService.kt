@@ -1,7 +1,7 @@
 package com.hcbox.services.order.service
 
 import com.hcbox.api.dto.OrderDto
-import com.hcbox.common.constant.StcdConstant
+import com.hcbox.common.constant.StatusConstant
 import com.hcbox.services.order.mapper.OrderMapper
 import com.hcbox.services.order.repository.OrderRepository
 import org.springframework.dao.DuplicateKeyException
@@ -48,7 +48,7 @@ class OrderService(
                 .map { entity ->
                     entity.memberId = orderUpsertDto.memberId
                     entity.couponId = orderUpsertDto.couponId
-                    entity.statusCode = StcdConstant.ORDER_STATUS_CODE_RECEIPT
+                    entity.statusCode = StatusConstant.ORDER_STATUS_CODE_RECEIPT
                     entity.orderDate = orderUpsertDto.orderDate
                     entity.phone = orderUpsertDto.phone
                     entity.address = orderUpsertDto.address

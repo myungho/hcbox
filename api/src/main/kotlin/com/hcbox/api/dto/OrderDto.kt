@@ -7,7 +7,7 @@ class OrderDto {
         var memberId: Long,
         var couponId: Long,
         var stock: Long,
-        var orderDate: Date? = Date(),
+        var orderDate: Date = Date(),
         var phone: String?,
         var address: String,
     )
@@ -17,7 +17,7 @@ class OrderDto {
         var couponId: Long,
         var stcd: Long,
         var stock: Long,
-        var orderDate: Date?,
+        var orderDate: Date,
         var phone: String?,
         var address: String?,
     )
