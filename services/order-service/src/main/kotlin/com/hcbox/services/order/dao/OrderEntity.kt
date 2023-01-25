@@ -3,13 +3,14 @@ package com.hcbox.services.order.dao
 import com.hcbox.common.entity.base.BaseEntity
 import java.util.*
 import javax.persistence.*
+import javax.validation.constraints.NotNull
 
 @Entity
 @Table(
     name = "`ORDER`",
     indexes = [Index(
         name = "I01_ORDER",
-        columnList = "MEMBER_ID"
+        columnList = "STUDENT_NAME, PHONE"
     )]
 )
 class OrderEntity : BaseEntity() {
@@ -23,11 +24,8 @@ class OrderEntity : BaseEntity() {
     @Column(name = "ID", nullable = false, precision = 20)
     val id: Long = 0
 
-    @Column(name = "MEMBER_ID")
-    var memberId: Long? = null
-
-    @Column(name = "COUPON_ID")
-    var couponId: Long? = null
+    @Column(name = "STUDENT_NAME", nullable = false, length = 100)
+    var studentName: String? = null
 
     @Column(name = "STATUS_CODE")
     var statusCode: String? = null
@@ -35,10 +33,14 @@ class OrderEntity : BaseEntity() {
     @Column(name = "ORDER_DATE")
     var orderDate: Date? = null
 
-    @Column(name = "PHONE")
+    @Column(name = "PHONE", nullable = false, length = 15)
     var phone: String? = null
 
     @Column(name = "ADDRESS")
     var address: String? = null
+
+    @ManyToOne
+    @JoinColumn(name = "SCHOOL_ID", nullable = false)
+    var schoolEntity: @NotNull SchoolEntity? = null
 }
 

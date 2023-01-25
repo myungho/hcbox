@@ -1,4 +1,4 @@
-package com.hcbox.services.product.controller.operation
+package com.hcbox.services.order.controller.operation
 
 import com.hcbox.api.dto.PageQueryDto
 import com.hcbox.api.dto.SchoolDto

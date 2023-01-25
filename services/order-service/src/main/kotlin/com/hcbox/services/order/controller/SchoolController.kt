@@ -1,9 +1,9 @@
-package com.hcbox.services.product.controller
+package com.hcbox.services.order.controller
 
 import com.hcbox.api.dto.PageQueryDto
 import com.hcbox.api.dto.SchoolDto
-import com.hcbox.services.product.controller.operation.SchoolOperation
-import com.hcbox.services.product.service.SchoolService
+import com.hcbox.services.order.controller.operation.SchoolOperation
+import com.hcbox.services.order.service.SchoolService
 import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono

@@ -1,10 +1,10 @@
-package com.hcbox.services.product.repository.impl
+package com.hcbox.services.order.repository.impl
 
 import com.hcbox.api.dto.SchoolDto
-import com.hcbox.services.product.dao.QSchoolEntity
-import com.hcbox.services.product.dao.SchoolEntity
-import com.hcbox.services.product.mapper.SchoolMapper
-import com.hcbox.services.product.repository.SchoolRepositoryCustom
+import com.hcbox.services.order.dao.QSchoolEntity
+import com.hcbox.services.order.dao.SchoolEntity
+import com.hcbox.services.order.mapper.SchoolMapper
+import com.hcbox.services.order.repository.SchoolRepositoryCustom
 import com.querydsl.core.types.Predicate
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page

@@ -1,9 +1,9 @@
-package com.hcbox.services.product.service
+package com.hcbox.services.order.service
 
 import com.hcbox.api.dto.PageQueryDto
 import com.hcbox.api.dto.SchoolDto
-import com.hcbox.services.product.mapper.SchoolMapper
-import com.hcbox.services.product.repository.SchoolRepository
+import com.hcbox.services.order.mapper.SchoolMapper
+import com.hcbox.services.order.repository.SchoolRepository
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service

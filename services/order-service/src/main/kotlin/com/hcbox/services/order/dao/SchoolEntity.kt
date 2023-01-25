@@ -1,4 +1,4 @@
-package com.hcbox.services.product.dao
+package com.hcbox.services.order.dao
 
 import com.hcbox.common.entity.base.BaseEntity
 import org.jetbrains.annotations.NotNull

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service
 class CompositeOrderService(
     private val streamBridge: StreamBridge,
     private val orderMapper: OrderMapper,
-    private val kafkaTemplate: KafkaTemplate<String, GenericRecord>
 ) {
 
     fun create(orderUpsertDto: OrderDto.OrderUpsertDto) {

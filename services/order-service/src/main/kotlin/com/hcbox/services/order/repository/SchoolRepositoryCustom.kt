@@ -1,4 +1,4 @@
-package com.hcbox.services.product.repository
+package com.hcbox.services.order.repository
 
 import com.hcbox.api.dto.SchoolDto
 import org.springframework.data.domain.Page
