@@ -12,7 +12,7 @@ import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
 @EntityListeners(value = [AuditingEntityListener::class])
-class BaseEntity(
+abstract class BaseEntity(
     @CreatedDate @Column(name = "created_date",
         nullable = false,
         updatable = false,

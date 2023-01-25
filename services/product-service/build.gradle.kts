@@ -51,7 +51,7 @@ dependencies {
 //    implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.glassfish:jakarta.el:3.0.3")
-
+    implementation("com.querydsl:querydsl-core:$querydslVersion")
     implementation("com.querydsl:querydsl-jpa:$querydslVersion")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.14")
 
@@ -71,6 +71,7 @@ dependencies {
     runtimeOnly("com.h2database:h2")
 
     kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
 

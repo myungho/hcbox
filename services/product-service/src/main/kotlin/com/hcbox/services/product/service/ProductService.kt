@@ -1,9 +1,11 @@
 package com.hcbox.services.product.service
 
+import com.hcbox.api.dto.PageQueryDto
 import com.hcbox.api.dto.ProductDto
 import com.hcbox.services.product.mapper.ProductMapper
 import com.hcbox.services.product.repository.ProductRepository
 import org.springframework.dao.DuplicateKeyException
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.webjars.NotFoundException
 import reactor.core.publisher.Mono
@@ -43,23 +45,29 @@ class ProductService(
         val dto =
             Mono.fromCallable { productRepository.findById(id) }
                 .map { entity -> entity.get() }
-                .switchIfEmpty(Mono.error(NotFoundException("Entity Not Found. id=$id")))
+                .switchIfEmpty(Mono.error(NotFoundException("Product Entity Not Found. id=$id")))
                 .map { entity ->
-                    entity.code = productUpsertDto.code
-                    entity.brandCode = productUpsertDto.brandCode
-                    entity.detail = productUpsertDto.detail
-                    entity.discount = productUpsertDto.discount
-                    entity.imagePath1 = productUpsertDto.imagePath1
-                    entity.imagePath2 = productUpsertDto.imagePath2
-                    entity.imagePath3 = productUpsertDto.imagePath3
-                    entity.name = productUpsertDto.name
+                    entity.seasonType = productUpsertDto.seasonType!!
+                    entity.name = productUpsertDto.name!!
+                    entity.typeCode = productUpsertDto.typeCode!!
                     entity.price = productUpsertDto.price
-                    entity.stock = productUpsertDto.stock
                     productRepository.save(entity)
                 }
                 .onErrorMap { DuplicateKeyException("Duplicated product, $productUpsertDto") }
                 .map { e -> mapper.toDto(e) }
                 .subscribeOn(Schedulers.boundedElastic()).log()
         return dto
+    }
+
+    fun retrieve(
+        seasonType: Integer?,
+        name: String?,
+        pageQuery: PageQueryDto
+    ): Mono<Page<ProductDto.ProductReadDto>> {
+        return Mono.fromCallable {
+            productRepository.findAllByOptions(seasonType, name, pageQuery.of())
+        }
+            .map { page -> page }
+            .subscribeOn(Schedulers.boundedElastic()).log()
     }
 }

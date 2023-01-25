@@ -13,31 +13,21 @@ import javax.persistence.*
     )],
     uniqueConstraints = [UniqueConstraint(
         name = "UK1_PRODUCT",
-        columnNames = ["CODE"]
+        columnNames = ["TYPE_CODE"]
     )]
 )
 class ProductEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
     @NotNull
-    @Column(name = "NAME", length = 100)
+    @Column(name = "SEASON_TYPE", length = 1, nullable = false)
+    var seasonType: Integer,
+    @NotNull
+    @Column(name = "NAME", length = 100, nullable = false)
     var name: String,
+    @NotNull
+    @Column(name = "TYPE_CODE", length = 10, nullable = false)
+    var typeCode: String,
     @Column(name = "PRICE", length = 10)
-    var price: Long,
-    @Column(name = "DISCOUNT", length = 4)
-    var discount: Long,
-    @Column(name = "STOCK", length = 100)
-    var stock: Long,
-    @Column(name = "IMAGE_PATH1", length = 100)
-    var imagePath1: String?,
-    @Column(name = "IMAGE_PATH2", length = 100)
-    var imagePath2: String?,
-    @Column(name = "IMAGE_PATH3", length = 100)
-    var imagePath3: String?,
-    @Column(name = "DETAIL", length = 100)
-    var detail: String?,
-    @Column(name = "CODE", nullable = false, length = 10, unique = true)
-    var code: String,
-    @Column(name = "BRAND_CODE", nullable = false, length = 5)
-    var brandCode: String,
+    var price: Long? = null,
 ) : BaseEntity()

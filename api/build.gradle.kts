@@ -47,7 +47,7 @@ dependencies {
     implementation("io.confluent:kafka-avro-serializer:5.3.0")
     implementation("com.sksamuel.avro4k:avro4k-core:0.41.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-
+    implementation("org.springframework.data:spring-data-commons")
 }
 
 tasks.withType<KotlinCompile> {
