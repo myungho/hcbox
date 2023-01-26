@@ -24,10 +24,6 @@ kapt {
     keepJavacAnnotationProcessors = true
 }
 
-kotlinLombok {
-    lombokConfigurationFile(file("lombok.config"))
-}
-
 allOpen {
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.MappedSuperclass")
@@ -49,6 +45,7 @@ dependencies {
     implementation("org.hibernate:hibernate-core:5.3.9.Final")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.20")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -56,12 +53,4 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
     }
-}
-
-tasks.jar {
-    enabled = true
-}
-
-tasks.bootJar {
-    enabled = false
 }

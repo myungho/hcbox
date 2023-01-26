@@ -1,8 +1,8 @@
-# Kotlin, spring boot example
+# MSA w/Spring Boot Kotlin
 
-# zookeeper
+# 3rd party docker installation
 ````bash
-docker pull zookeeper
+docker-compose up -d
 ````
 
 # confluent repo 사내 인증서 오류
@@ -14,7 +14,7 @@ sudo keytool -importcert -file /Users/teddy/Documents/confluent.io.cer -keystore
 ```
 
 
-# schema-registry 
+# schema-registry api 관련
 ````
 curl -X GET \
 -H "Content-Type: application/json" \

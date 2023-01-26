@@ -2,12 +2,12 @@ package com.hcbox.services.order.service
 
 import com.hcbox.api.dto.OrderDto
 import com.hcbox.common.constant.StatusConstant
+import com.hcbox.common.http.NotFoundException
 import com.hcbox.services.order.mapper.OrderMapper
 import com.hcbox.services.order.repository.OrderRepository
 import com.hcbox.services.order.repository.SchoolRepository
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Service
-import org.webjars.NotFoundException
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 
@@ -30,17 +30,14 @@ class OrderService(
     }
 
     fun findById(id: Long): Mono<OrderDto.OrderReadDto> {
-        return Mono.fromCallable { orderRepository.findById(id) }
+        return Mono.fromCallable { orderRepository.findById(id).orElse(null) }
             .switchIfEmpty(Mono.error(NotFoundException("Entity Not Found. id=$id")))
-            .map { entity -> entity.get() }
-
             .map { entity -> mapper.toDto(entity) }
             .subscribeOn(Schedulers.boundedElastic()).log()
     }
 
     fun delete(id: Long): Mono<Void> {
-        return Mono.fromCallable { orderRepository.findById(id) }
-            .map { entity -> entity.get() }
+        return Mono.fromCallable { orderRepository.findById(id).orElse(null) }
             .switchIfEmpty(Mono.error(NotFoundException("Entity Not Found. id=$id")))
             .map { entity -> orderRepository.delete(entity) }
             .subscribeOn(Schedulers.boundedElastic()).log().then()
