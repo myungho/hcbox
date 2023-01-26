@@ -6,11 +6,10 @@ import java.util.*
 
 @Serializable
 data class OrderEvent(
-    val memberId: Long,
-    val couponId: Long,
-//    val statusCode: String = StatusConstant.ORDER_STATUS_CODE_RECEIPT,
+    val studentName: String,
     @Serializable(DateSerializer::class)
     val orderDate: Date,
     val phone: String,
-    val address: String
+    val address: String,
+    val schoolId: Long
 )
