@@ -1,7 +1,6 @@
 package com.hcbox.services.order.dao
 
 import com.hcbox.common.entity.base.BaseEntity
-import lombok.ToString
 import javax.persistence.*
 
 @Entity
@@ -27,8 +26,9 @@ class OrderDetailEntity : BaseEntity() {
     @Column(name = "ID", nullable = false, precision = 20)
     val id: Long = 0
 
-    @Column(name = "ORDER_ID")
-    var orderId: Long? = null
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID")
+    var orderEntity: OrderEntity? = null
 
     @Column(name = "PRODUCT_ID")
     var productId: Long? = null

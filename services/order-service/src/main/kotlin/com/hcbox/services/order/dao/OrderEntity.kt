@@ -42,5 +42,8 @@ class OrderEntity : BaseEntity() {
     @ManyToOne
     @JoinColumn(name = "SCHOOL_ID", nullable = false)
     var schoolEntity: @NotNull SchoolEntity? = null
+
+    @OneToMany(mappedBy = "orderEntity")
+    var orderDetailEntityList: MutableList<OrderDetailEntity>? = null
 }
 

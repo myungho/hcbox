@@ -15,15 +15,15 @@ class OrderController(
         return orderService.create(orderUpsertDto);
     }
 
-    override fun read(id: Long): Mono<OrderDto.OrderReadDto> {
-        val order: Mono<OrderDto.OrderReadDto> = orderService.findById(id);
+    override fun read(id: Long): Mono<OrderDto.OrderReadAllDto> {
+        val order: Mono<OrderDto.OrderReadAllDto> = orderService.findById(id);
         return order;
     }
 
     override fun update(
         id: Long,
         orderUpsertDto: OrderDto.OrderUpsertDto
-    ): Mono<OrderDto.OrderReadDto> {
+    ): Mono<OrderDto.OrderReadAllDto> {
         return orderService.update(id, orderUpsertDto)
     }
 

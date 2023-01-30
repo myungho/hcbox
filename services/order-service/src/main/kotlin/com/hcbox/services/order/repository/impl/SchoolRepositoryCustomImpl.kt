@@ -42,8 +42,8 @@ class SchoolRepositoryCustomImpl(
     }
 
     private fun containsName(name: String?): Predicate? {
-        name ?: return null;
-        return qSchoolEntity.name.contains(name!!)
+        name ?: return null
+        return qSchoolEntity.name.contains(name)
 
     }
 }

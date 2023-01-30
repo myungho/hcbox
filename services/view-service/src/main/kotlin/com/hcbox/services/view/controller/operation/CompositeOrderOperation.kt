@@ -1,7 +1,10 @@
 package com.hcbox.services.view.controller.operation
 
 import com.hcbox.api.dto.OrderDto
+import com.hcbox.api.dto.composite.CompositeOrderDto
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -26,4 +29,15 @@ interface CompositeOrderOperation {
     fun create(
         @RequestBody orderUpsertDto: @Valid OrderDto.OrderUpsertDto
     )
+
+    @GetMapping("/{id}")
+    @Operation(summary = "조회")
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
+    fun read(
+        @Parameter(
+            description = "id",
+            `in` = ParameterIn.PATH,
+            required = true
+        ) @PathVariable id: Long,
+    ): Mono<CompositeOrderDto.CompositeOrderReadAllDto>
 }

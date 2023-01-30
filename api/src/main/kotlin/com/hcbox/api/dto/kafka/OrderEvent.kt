@@ -1,5 +1,6 @@
 package com.hcbox.api.dto.kafka
 
+import com.hcbox.api.dto.OrderDetailDto.OrderDetailUpsertDto
 import com.hcbox.api.dto.kafka.serializer.DateSerializer
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -11,5 +12,6 @@ data class OrderEvent(
     val orderDate: Date,
     val phone: String,
     val address: String,
-    val schoolId: Long
+    val schoolId: Long,
+    val orderDetailList: List<OrderDetailUpsertDto>
 )

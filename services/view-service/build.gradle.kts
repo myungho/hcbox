@@ -70,7 +70,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.0")
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
-
+//    implementation("org.springframework.boot:spring-boot-configuration-processor")
     // local JAR
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf( "*.jar"))))
 
@@ -80,6 +80,7 @@ dependencies {
     kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
 
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

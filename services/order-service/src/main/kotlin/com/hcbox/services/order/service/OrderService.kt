@@ -3,36 +3,53 @@ package com.hcbox.services.order.service
 import com.hcbox.api.dto.OrderDto
 import com.hcbox.common.constant.StatusConstant
 import com.hcbox.common.http.NotFoundException
+import com.hcbox.services.order.mapper.OrderDetailMapper
 import com.hcbox.services.order.mapper.OrderMapper
+import com.hcbox.services.order.repository.OrderDetailRepository
 import com.hcbox.services.order.repository.OrderRepository
 import com.hcbox.services.order.repository.SchoolRepository
+import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 
 @Service
 class OrderService(
     private val orderRepository: OrderRepository,
+    private val orderDetailRepository: OrderDetailRepository,
     private val schoolRepository: SchoolRepository,
-    private val mapper: OrderMapper,
+    private val orderMapper: OrderMapper,
+    private val orderDetailMapper: OrderDetailMapper,
 ) {
-    fun create(order: OrderDto.OrderUpsertDto): Mono<OrderDto.OrderReadDto> {
+    companion object OrderService {
+        private val log = LoggerFactory.getLogger(OrderService::class.java)
+    }
+
+    @Transactional
+    fun create(orderUpsertDto: OrderDto.OrderUpsertDto): Mono<OrderDto.OrderReadDto> {
         return Mono.fromCallable {
-            val schoolEntity = schoolRepository.findById(order.schoolId)
-                .orElseThrow { NotFoundException("School Entity Not found. id=${order.schoolId}") }
-            val orderEntity = mapper.toEntity(order)
+            val schoolEntity = schoolRepository.findById(orderUpsertDto.schoolId!!)
+                .orElseThrow { NotFoundException("School Entity Not found. id=${orderUpsertDto.schoolId}") }
+            val orderEntity = orderMapper.toEntity(orderUpsertDto)
+            orderEntity.statusCode = StatusConstant.ORDER_STATUS_CODE_RECEIPT
             orderEntity.schoolEntity = schoolEntity
-            orderRepository.save(orderEntity)
+            val savedOrderEntity = orderRepository.save(orderEntity)
+            orderUpsertDto.orderDetailList?.forEach { orderDetail ->
+                val orderDetailEntity = orderDetailMapper.toEntity(orderDetail)
+                orderDetailEntity.orderEntity = savedOrderEntity
+                orderDetailRepository.save(orderDetailEntity)
+            }
+            orderMapper.toDto(savedOrderEntity)
         }
-            .map { entity -> mapper.toDto(entity) }
             .subscribeOn(Schedulers.boundedElastic()).log()
     }
 
-    fun findById(id: Long): Mono<OrderDto.OrderReadDto> {
+    fun findById(id: Long): Mono<OrderDto.OrderReadAllDto> {
         return Mono.fromCallable { orderRepository.findById(id).orElse(null) }
             .switchIfEmpty(Mono.error(NotFoundException("Entity Not Found. id=$id")))
-            .map { entity -> mapper.toDto(entity) }
+            .map { entity -> orderMapper.toAllDto(entity) }
             .subscribeOn(Schedulers.boundedElastic()).log()
     }
 
@@ -46,13 +63,13 @@ class OrderService(
     fun update(
         id: Long,
         orderUpsertDto: OrderDto.OrderUpsertDto
-    ): Mono<OrderDto.OrderReadDto> {
+    ): Mono<OrderDto.OrderReadAllDto> {
         val dto =
             Mono.fromCallable { orderRepository.findById(id) }
                 .map { entity -> entity.get() }
                 .switchIfEmpty(Mono.error(NotFoundException("Order Entity Not Found. id=$id")))
                 .map { entity ->
-                    val schoolEntity = schoolRepository.findById(orderUpsertDto.schoolId)
+                    val schoolEntity = schoolRepository.findById(orderUpsertDto.schoolId!!)
                         .orElseThrow { NotFoundException("School Entity Not Found. id=${orderUpsertDto.schoolId}") }
                     entity.studentName = orderUpsertDto.studentName
                     entity.statusCode = StatusConstant.ORDER_STATUS_CODE_RECEIPT
@@ -64,7 +81,7 @@ class OrderService(
                     orderRepository.save(entity)
                 }
                 .onErrorMap { DuplicateKeyException("Duplicated Order, $orderUpsertDto") }
-                .map { e -> mapper.toDto(e) }
+                .map { e -> orderMapper.toAllDto(e) }
                 .subscribeOn(Schedulers.boundedElastic()).log()
         return dto
     }

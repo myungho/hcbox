@@ -9,6 +9,9 @@ import org.mapstruct.Mapping
 @Mapper(componentModel = "spring")
 interface OrderMapper {
     @Mapping(source = "schoolEntity", target = "school")
+    @Mapping(source = "orderDetailEntityList", target = "orderDetailList")
+    fun toAllDto(entity: OrderEntity): OrderDto.OrderReadAllDto
+    @Mapping(source = "schoolEntity", target = "school")
     fun toDto(entity: OrderEntity): OrderDto.OrderReadDto
     fun toDto(event: OrderEvent): OrderDto.OrderUpsertDto
     fun toEntity(dto: OrderDto.OrderUpsertDto): OrderEntity

@@ -38,7 +38,7 @@ interface OrderOperation {
             `in` = ParameterIn.PATH,
             required = true
         ) @PathVariable id: Long,
-    ): Mono<OrderDto.OrderReadDto>
+    ): Mono<OrderDto.OrderReadAllDto>
 
     @PutMapping("/{id}")
     @Operation(summary = "업데이트")
@@ -50,7 +50,7 @@ interface OrderOperation {
             required = true
         ) @PathVariable id: Long,
         @RequestBody orderUpsertDto: @Valid OrderDto.OrderUpsertDto
-    ): Mono<OrderDto.OrderReadDto>
+    ): Mono<OrderDto.OrderReadAllDto>
 
     @DeleteMapping("/{id}")
     @Operation(summary = "삭제")

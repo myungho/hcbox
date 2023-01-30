@@ -54,3 +54,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         jvmTarget = "11"
     }
 }
+
+tasks.bootJar {
+    enabled = false
+}
