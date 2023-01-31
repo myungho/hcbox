@@ -1,8 +1,9 @@
 app:
-  order:
-    baseUrl: "http://localhost:9090"
-  product:
-    baseUrl: "http://localhost:9091"
+  service:
+    order:
+      baseUrl: "http://localhost:9090"
+    product:
+      baseUrl: "http://localhost:9091"
 
 server:
   port: 8088

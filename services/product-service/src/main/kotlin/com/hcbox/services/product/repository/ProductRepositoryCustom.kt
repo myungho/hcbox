@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ProductRepositoryCustom {
     fun findAllByOptions(
-        seasonType: Integer?, name: String?, pageRequest: PageRequest
+        schoolId: Long?, seasonType: Integer?, name: String?, pageRequest: PageRequest
     ): Page<ProductDto.ProductReadDto>
 }

@@ -6,6 +6,7 @@ class ProductDto {
         var name: String? = null
         var typeCode: String? = null
         var price: Long? = null
+        var schoolId: Long? = null
     }
     class ProductReadDto{
         var id: Long? = null
@@ -13,5 +14,6 @@ class ProductDto {
         var name: String? = null
         var typeCode: String? = null
         var price: Long? = null
+        var schoolId: Long? = null
     }
 }

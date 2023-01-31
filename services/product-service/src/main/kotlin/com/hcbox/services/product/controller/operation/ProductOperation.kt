@@ -17,7 +17,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import javax.validation.Valid
 
-@RequestMapping("/products")
+@RequestMapping("/products/product-mgmt")
 @Tag(name = "Products", description = "Products")
 interface ProductOperation {
     @PostMapping
@@ -71,6 +71,10 @@ interface ProductOperation {
     @Operation(summary = "페이징 조회")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
     fun retrieve(
+        @Parameter(description = "학교 ID") @RequestParam(
+            value = "schoolId",
+            required = false
+        ) schoolId: Long?,
         @Parameter(description = "시즌 타입") @RequestParam(
             value = "seasonType",
             required = false

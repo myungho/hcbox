@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 import javax.validation.Valid
 
-@RequestMapping("/schools")
+@RequestMapping("/orders/schools")
 @Tag(name = "Schools", description = "Schools")
 interface SchoolOperation {
     @PostMapping

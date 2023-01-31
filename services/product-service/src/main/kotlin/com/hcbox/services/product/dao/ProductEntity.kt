@@ -18,7 +18,7 @@ import javax.persistence.*
 )
 class ProductEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    var id: Long = 0,
     @NotNull
     @Column(name = "SEASON_TYPE", length = 1, nullable = false)
     var seasonType: Integer,
@@ -30,4 +30,6 @@ class ProductEntity(
     var typeCode: String,
     @Column(name = "PRICE", length = 10)
     var price: Long? = null,
+    @Column(name = "SCHOOL_ID", length = 10)
+    var schoolId: Long? = null,
 ) : BaseEntity()

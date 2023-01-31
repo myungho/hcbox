@@ -23,13 +23,14 @@ class ProductRepositoryCustomImpl(
     private val qProductEntity = QProductEntity.productEntity
 
     override fun findAllByOptions(
+        schoolId: Long?,
         seasonType: Integer?,
         name: String?,
         pageable: PageRequest
     ): Page<ProductDto.ProductReadDto> {
         val content = jpaQueryFactory
             .selectFrom(qProductEntity)
-            .where(eqSeasonType(seasonType), containsName(name))
+            .where(eqSchoolId(schoolId), eqSeasonType(seasonType), containsName(name))
             .offset(pageable!!.offset)
             .limit(pageable.pageSize.toLong())
             .fetch().stream().map { entity -> productMapper.toDto(entity) }
@@ -42,15 +43,21 @@ class ProductRepositoryCustomImpl(
         return PageImpl(content, pageable, totalSize.toLong())
     }
 
+    private fun eqSchoolId(schoolId: Long?): Predicate? {
+        schoolId ?: return null
+        return qProductEntity.schoolId.eq(schoolId)
+
+    }
+
     private fun containsName(name: String?): Predicate? {
-        name ?: return null;
-        return qProductEntity.name.contains(name!!)
+        name ?: return null
+        return qProductEntity.name.contains(name)
 
     }
 
     private fun eqSeasonType(seasonType: Integer?): Predicate? {
         seasonType ?: return null
-        return qProductEntity.seasonType.eq(seasonType!!.toInt())
+        return qProductEntity.seasonType.eq(seasonType.toInt())
     }
 
 }

@@ -35,10 +35,11 @@ class ProductController(
     }
 
     override fun retrieve(
+        schoolId: Long?,
         seasonType: Integer?,
         name: String?,
         pageQuery: PageQueryDto
     ): Mono<Page<ProductDto.ProductReadDto>> {
-        return productService.retrieve(seasonType, name, pageQuery)
+        return productService.retrieve(schoolId, seasonType, name, pageQuery)
     }
 }

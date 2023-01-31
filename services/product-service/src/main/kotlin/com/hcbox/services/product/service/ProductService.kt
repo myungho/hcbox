@@ -60,12 +60,13 @@ class ProductService(
     }
 
     fun retrieve(
+        schoolId: Long?,
         seasonType: Integer?,
         name: String?,
         pageQuery: PageQueryDto
     ): Mono<Page<ProductDto.ProductReadDto>> {
         return Mono.fromCallable {
-            productRepository.findAllByOptions(seasonType, name, pageQuery.of())
+            productRepository.findAllByOptions(schoolId, seasonType, name, pageQuery.of())
         }
             .map { page -> page }
             .subscribeOn(Schedulers.boundedElastic()).log()
