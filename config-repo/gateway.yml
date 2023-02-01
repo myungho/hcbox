@@ -1,6 +1,17 @@
 server.port: 8087
 
 spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://keycloak:8080/auth/realms/hcbox  # local, /etc/hosts 수정
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: hcbox-app
+            client-secret: kyp6Ggn6162AVfw98BoSAt8RCjcY5uj4
   cloud.gateway:
     discovery.locator.enabled: true
     routes:

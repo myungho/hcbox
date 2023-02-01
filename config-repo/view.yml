@@ -12,6 +12,11 @@ spring:
   config:
     activate:
       on-profile: h2
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/auth/realms/hcbox
   h2:
     console:
       enabled: true

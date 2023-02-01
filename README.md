@@ -25,3 +25,10 @@ curl -X GET \
 -H "Content-Type: application/json" \
 http://localhost:8081/subjects/order-events-v1-value/versions/1
 ```
+
+# Keycloak
+
+http://localhost:8080/auth/admin
+
+id: admin
+pwd: admin

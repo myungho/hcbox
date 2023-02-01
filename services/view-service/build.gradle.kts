@@ -71,6 +71,9 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.0")
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
 //    implementation("org.springframework.boot:spring-boot-configuration-processor")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-oauth2-resource-server")
+    implementation("org.springframework.security:spring-security-oauth2-jose")
     // local JAR
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf( "*.jar"))))
 

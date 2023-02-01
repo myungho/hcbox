@@ -48,6 +48,8 @@ dependencies {
     implementation ("org.springdoc:springdoc-openapi-webflux-ui:1.6.14")
     implementation ("org.springdoc:springdoc-openapi-common:1.6.14")
 
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-oauth2-client")
     implementation ("org.springframework.retry:spring-retry")
 
     // local JAR
