@@ -10,8 +10,8 @@ spring:
             user-name-attribute: preferred_username
         registration:
           keycloak:
-            client-id: hcbox-app
-            client-secret: kyp6Ggn6162AVfw98BoSAt8RCjcY5uj4
+            client-id: hcbox-swagger
+            client-secret: ASwgacXeGIVln2ksmOaPIH5jzPTABUmJ
   cloud.gateway:
     discovery.locator.enabled: true
     routes:

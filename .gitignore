@@ -34,9 +34,10 @@ build/
 **/build/
 !src/**/build/
 
-react-frontend/node_module/**
-react-frontend/build/
-react-frontend/build.zip
-react-frontend/public/config
-react-frontend/.env
-react-frontend/yarn-error.log*
+frontend/node_modules/**
+frontend/build/
+frontend/build.zip
+frontend/public/config
+frontend/.env
+frontend/yarn-error.log*
+
