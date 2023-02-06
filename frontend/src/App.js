@@ -6,10 +6,14 @@ import ScrollTop from 'components_hcbox/ScrollTop';
 // ==============================|| APP - THEME, ROUTER, LOCAL  ||============================== //
 
 import { useKeycloak } from '@react-keycloak/web';
+import { useEffect } from "react";
 
 const App = props => {
   const { keycloak, initialized } = useKeycloak();
 
+  useEffect(() => {
+    console.log(keycloak);
+  }, []);
   return (
       <div>
         <div>{`User is ${
