@@ -1,4 +1,4 @@
-package com.hcbox.services.view.config
+package com.hcbox.services.order.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,7 +17,8 @@ class SecurityConfig {
     fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
 
         http.authorizeExchange { authorizeExchangeSpec ->
-            authorizeExchangeSpec.pathMatchers("/webjars/**", "/v3/api-docs/**", "swagger*/**").permitAll()
+            authorizeExchangeSpec.pathMatchers("/webjars/**", "/v3/api-docs/**", "swagger*/**")
+                .permitAll()
                 .anyExchange().authenticated()
         }
             .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt)

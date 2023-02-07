@@ -1,11 +1,10 @@
-package com.hcbox.services.view.config
+package com.hcbox.springcloud.gateway
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.web.server.SecurityWebFilterChain
-import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsConfigurationSource
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
@@ -17,11 +16,20 @@ class SecurityConfig {
     fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
 
         http.authorizeExchange { authorizeExchangeSpec ->
-            authorizeExchangeSpec.pathMatchers("/webjars/**", "/v3/api-docs/**", "swagger*/**").permitAll()
-                .anyExchange().authenticated()
+            authorizeExchangeSpec.pathMatchers("/**").permitAll()
         }
-            .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt)
-            .securityContextRepository(NoOpServerSecurityContextRepository.getInstance()) // stateless
+            .cors().configurationSource(corsConfigurationSource())
         return http.build()
+    }
+
+    private fun corsConfigurationSource(): CorsConfigurationSource? {
+        val configuration = CorsConfiguration()
+        configuration.addAllowedOriginPattern("*")
+        configuration.addAllowedHeader("*")
+        configuration.addAllowedMethod("*")
+        configuration.allowCredentials = true
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 }

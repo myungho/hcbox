@@ -44,6 +44,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.0")
 
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation ("org.springdoc:springdoc-openapi-webflux-core:1.6.14")
     implementation ("org.springdoc:springdoc-openapi-webflux-ui:1.6.14")
     implementation ("org.springdoc:springdoc-openapi-common:1.6.14")

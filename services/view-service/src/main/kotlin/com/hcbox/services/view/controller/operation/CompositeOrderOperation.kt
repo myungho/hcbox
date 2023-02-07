@@ -9,16 +9,17 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 import javax.validation.Valid
 
-@RequestMapping("/views/orders")
+@RequestMapping("/orders")
 @Tag(name = "Orders", description = "Orders")
 interface CompositeOrderOperation {
     @PostMapping
-    @Operation(summary = "생성")
+    @Operation(summary = "생성", security = [SecurityRequirement(name = "bearerAuth")])
     @ApiResponses(
         value = [ApiResponse(
             responseCode = "201",
@@ -31,7 +32,7 @@ interface CompositeOrderOperation {
     )
 
     @GetMapping("/{id}")
-    @Operation(summary = "조회")
+    @Operation(summary = "조회", security = [SecurityRequirement(name = "bearerAuth")])
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
     fun read(
         @Parameter(

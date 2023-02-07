@@ -3,8 +3,8 @@ import EliteTable from 'components_hcbox/table/EliteTable';
 // project import
 import MainCard from 'components/MainCard';
 import {useEffect} from "react";
-import Axios from 'utils/Axios';
-
+import {get} from 'utils/Axios';
+import { useKeycloak } from '@react-keycloak/web';
 // ==============================|| SAMPLE PAGE ||============================== //
 const initColumns =
     [
@@ -33,21 +33,14 @@ const initData = [
   }
 ]
 const SchoolPage = () => {
+  const { keycloak } = useKeycloak();
   const getData = async () => {
-    Axios({
-      baseURL: 'http://localhost:8087',
-      url: '/orders/schools/retrieve',
-      method: 'get'
-    }).then((res) => {
-      console.log('res', res)
-    }).catch((error) => {
-      console.log('error', error)
-    })
+    const response = get('/orders/schools/retrieve', keycloak.token)
   }
 
   useEffect(() => {
     getData();
-  }, []);
+  });
 
   return (
       <MainCard title="Sample Card">

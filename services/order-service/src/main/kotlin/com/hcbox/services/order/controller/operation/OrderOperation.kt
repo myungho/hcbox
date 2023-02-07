@@ -8,16 +8,17 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 import javax.validation.Valid
 
-@RequestMapping("/orders/order-request")
+@RequestMapping("/order-request")
 @Tag(name = "Orders", description = "Orders")
 interface OrderOperation {
     @PostMapping
-    @Operation(summary = "생성")
+    @Operation(summary = "생성", security = [SecurityRequirement(name = "bearerAuth")])
     @ApiResponses(
         value = [ApiResponse(
             responseCode = "201",
@@ -30,7 +31,7 @@ interface OrderOperation {
     ): Mono<OrderDto.OrderReadDto>
 
     @GetMapping("/{id}")
-    @Operation(summary = "조회")
+    @Operation(summary = "조회", security = [SecurityRequirement(name = "bearerAuth")])
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
     fun read(
         @Parameter(
@@ -41,7 +42,7 @@ interface OrderOperation {
     ): Mono<OrderDto.OrderReadAllDto>
 
     @PutMapping("/{id}")
-    @Operation(summary = "업데이트")
+    @Operation(summary = "업데이트", security = [SecurityRequirement(name = "bearerAuth")])
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
     fun update(
         @Parameter(
@@ -53,7 +54,7 @@ interface OrderOperation {
     ): Mono<OrderDto.OrderReadAllDto>
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "삭제")
+    @Operation(summary = "삭제", security = [SecurityRequirement(name = "bearerAuth")])
     @ApiResponses(value = [ApiResponse(responseCode = "204", description = "No Content")])
     fun delete(
         @Parameter(

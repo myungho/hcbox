@@ -64,6 +64,10 @@ dependencies {
     implementation("com.sksamuel.avro4k:avro4k-core:0.41.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-oauth2-resource-server")
+    implementation("org.springframework.security:spring-security-oauth2-jose")
+
     // local JAR
     implementation(fileTree(mapOf("dir" to "../libs", "include" to listOf( "*.jar"))))
 

@@ -1,4 +1,4 @@
-package com.hcbox.services.view.config
+package com.hcbox.services.product.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

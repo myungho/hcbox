@@ -12,8 +12,9 @@ const App = props => {
   const { keycloak, initialized } = useKeycloak();
 
   useEffect(() => {
-    console.log(keycloak);
+    console.info(keycloak)
   }, []);
+
   return (
       <div>
         <div>{`User is ${

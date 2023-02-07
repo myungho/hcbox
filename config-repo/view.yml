@@ -9,6 +9,8 @@ server:
   port: 8088
 
 spring:
+  webflux:
+    base-path: views
   config:
     activate:
       on-profile: h2
@@ -16,7 +18,9 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/auth/realms/hcbox
+          issuer-uri: http://localhost:8080/auth/realms/hcbox
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
   h2:
     console:
       enabled: true
@@ -62,3 +66,6 @@ spring.kafka:
     spring:
       jpa:
         database-platform: org.hibernate.dialect.H2Dialect
+
+logging:
+  config: config-repo/logback.xml

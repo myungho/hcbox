@@ -1,17 +1,17 @@
 server.port: 8087
 
 spring:
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: http://keycloak:8080/auth/realms/hcbox  # local, /etc/hosts 수정
-            user-name-attribute: preferred_username
-        registration:
-          keycloak:
-            client-id: hcbox-swagger
-            client-secret: ASwgacXeGIVln2ksmOaPIH5jzPTABUmJ
+#  security:
+#    oauth2:
+#      client:
+#        provider:
+#          keycloak:
+#            issuer-uri: http://localhost:8080/auth/realms/hcbox  # local, /etc/hosts 수정
+#            user-name-attribute: preferred_username
+#        registration:
+#          keycloak:
+#            client-id: hcbox-swagger
+#            client-secret: ASwgacXeGIVln2ksmOaPIH5jzPTABUmJ
   cloud.gateway:
     discovery.locator.enabled: true
     routes:
@@ -19,20 +19,14 @@ spring:
         uri: http://localhost:8088
         predicates:
           - Path=/views/**
-        filters:
-          - RewritePath=/views/(?<path>.*), /$\{path}
       - id: orders-service
         uri: http://localhost:9090
         predicates:
           - Path=/orders/**
-        filters:
-          - RewritePath=/orders/(?<path>.*), /$\{path}
       - id: products-service
         uri: http://localhost:9091
         predicates:
           - Path=/products/**
-        filters:
-          - RewritePath=/products/(?<path>.*), /$\{path}
       - id: openapi
         uri: http://localhost:${server.port}
         predicates:
@@ -46,3 +40,5 @@ management:
 
 springdoc:
   version: '@springdoc.version@'
+logging:
+  config: config-repo/logback.xml
