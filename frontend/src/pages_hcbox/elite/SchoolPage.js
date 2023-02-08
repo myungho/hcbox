@@ -2,52 +2,98 @@
 import EliteTable from 'components_hcbox/table/EliteTable';
 // project import
 import MainCard from 'components/MainCard';
-import {useEffect} from "react";
-import {get} from 'utils/Axios';
-import { useKeycloak } from '@react-keycloak/web';
+import {useEffect, useState} from "react";
+import {del, get, patch, post} from 'utils/Axios';
+import {useKeycloak} from '@react-keycloak/web';
+import {useDispatch, useSelector} from 'react-redux';
+import {changePage, changePageSize} from 'store/reducers/table';
 // ==============================|| SAMPLE PAGE ||============================== //
 const initColumns =
     [
-      {title: 'Name', field: 'name'},
-      {title: 'Surname', field: 'surname'},
-      {title: 'Birth Year', field: 'birthYear', type: 'numeric'},
-      {
-        title: 'Birth City',
-        field: 'birthCity',
-        lookup: {1: 'Linz', 2: 'Vöcklabruck', 3: 'Salzburg'}
-      }
+      {title: '아이디', field: 'id', hidden: true},
+      {title: '이름', field: 'name'},
+      {title: '직원 이름', field: 'staffName'},
+      {title: '전화번호', field: 'phone'}
     ]
 
 const initData = [
   {
-    name: 'Max',
-    surname: 'Mustermann',
-    birthYear: 1987,
-    birthCity: 1
-  },
-  {
-    name: 'Cindy',
-    surname: 'Musterfrau',
-    birthYear: 1995,
-    birthCity: 2
+    id: 1,
+    name: '',
+    staffName: '',
+    phoner: '',
   }
 ]
+
 const SchoolPage = () => {
-  const { keycloak } = useKeycloak();
-  const getData = async () => {
-    const response = get('/orders/schools/retrieve', keycloak.token)
+  const {keycloak} = useKeycloak();
+  const [data, setData] = useState(initData);
+  const conditionData = "";
+  const dispatch = useDispatch();
+  const {page, pageSize} = useSelector((state) => state.table);
+
+  const searchData = async () => {
+    let searchParam = {
+      ...pageOption
+    };
+
+    if (searchParam.sortField === "") {
+      delete searchParam.sortField;
+      delete searchParam.sortDirection;
+    }
+
+    const response = await get('/orders/schools/retrieve', searchParam,
+        keycloak.token);
+    setData(response.content);
+    console.info(pageSize);
   }
 
-  useEffect(() => {
-    getData();
-  });
+  const postRequest = (newData) => {
+    const response = post('orders/schools', newData, keycloak.token);
+  }
 
-  return (
-      <MainCard title="Sample Card">
-        <EliteTable tableColumns={initColumns} tableData={initData}/>
-      </MainCard>
+  const deleteRequest = (id) => {
+    const response = del(`orders/schools/${id}`, keycloak.token);
+  }
+
+  const updateRequest = (oldValue, newValue) => {
+    const response = patch(`orders/schools/${oldValue.tableData.id}`, newValue,
+        keycloak.token);
+  }
+
+  const [pageOption, setPageOption] = useState(
+      {
+        page: page,
+        pageSize: pageSize
+      }
   );
 
+  useEffect(() => {
+    searchData();
+  }, [
+    pageOption.page,
+    pageOption.rowsPerPage,
+  ]);
+
+  return (
+      <MainCard title="학교 정보">
+        <EliteTable
+            tableColumns={initColumns}
+            tableData={data}
+            post={postRequest}
+            update={updateRequest}
+            del={deleteRequest}
+            page={page}
+            pageSize={pageSize}
+            onChangePage={(event, newPage) => {
+              dispatch(changePage({page: newPage}));
+            }}
+            onChangeRowsPerPage={event => {
+              dispatch(changePageSize({page: event}));
+            }}
+        />
+      </MainCard>
+  );
 };
 
 export default SchoolPage;
