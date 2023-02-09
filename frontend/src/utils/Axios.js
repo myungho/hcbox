@@ -35,7 +35,7 @@ export function del(url, token) {
   })
 }
 
-export async function get(url, params, token) {
+export async function getAsync(url, params, token) {
   const { data } = await axiosInstance({
     method: 'GET',
     url,
@@ -46,6 +46,16 @@ export async function get(url, params, token) {
   })
   return data
 }
+export function get(url, params, token) {
+  return axiosInstance({
+    method: 'GET',
+    url,
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    params: params
+  })
+}
 
 export function patch(url, data, token) {
   configAxios()
@@ -55,6 +65,19 @@ export function patch(url, data, token) {
     data,
     headers: {
       Authorization: `Bearer ${token}`
+    },
+  })
+}
+
+export function put(url, data, token) {
+  configAxios()
+  return axiosInstance({
+    method: 'PUT',
+    url,
+    data,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": 'application/json'
     },
   })
 }

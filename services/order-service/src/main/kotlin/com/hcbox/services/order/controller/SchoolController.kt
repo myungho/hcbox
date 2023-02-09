@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono
 class SchoolController(
     private val schoolService: SchoolService
 ) : SchoolOperation {
+
     override fun create(schoolUpsertDto: SchoolDto.SchoolUpsertDto): Mono<SchoolDto.SchoolReadDto> {
         return schoolService.create(schoolUpsertDto);
     }

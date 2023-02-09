@@ -21,7 +21,7 @@ class ProductEntity(
     var id: Long = 0,
     @NotNull
     @Column(name = "SEASON_TYPE", length = 1, nullable = false)
-    var seasonType: Integer,
+    var seasonType: Int,
     @NotNull
     @Column(name = "NAME", length = 100, nullable = false)
     var name: String,

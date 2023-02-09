@@ -4,6 +4,7 @@ import com.hcbox.api.dto.PageQueryDto
 import com.hcbox.api.dto.SchoolDto
 import com.hcbox.services.order.mapper.SchoolMapper
 import com.hcbox.services.order.repository.SchoolRepository
+import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
@@ -16,8 +17,12 @@ class SchoolService(
     private val schoolRepository: SchoolRepository,
     private val mapper: SchoolMapper,
 ) {
-    fun create(product: SchoolDto.SchoolUpsertDto): Mono<SchoolDto.SchoolReadDto> {
-        return Mono.fromCallable { schoolRepository.save(mapper.toEntity(product)) }
+    companion object {
+        private val log = LoggerFactory.getLogger(SchoolService::class.java)
+    }
+
+    fun create(school: SchoolDto.SchoolUpsertDto): Mono<SchoolDto.SchoolReadDto> {
+        return Mono.fromCallable { schoolRepository.save(mapper.toEntity(school)) }
             .map { entity -> mapper.toDto(entity) }
             .subscribeOn(Schedulers.boundedElastic()).log()
     }

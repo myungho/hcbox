@@ -17,22 +17,14 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import {TablePagination, withStyles} from "@material-ui/core";
-
-const StyledPagination = withStyles({
-  caption: {
-    '&.MuiTypography-caption': {
-      fontSize: '1.5rem !important'
-    },
-    fontSize: '1.5rem !important'
-  }
-})(TablePagination)
+import {del, get, patch, post} from 'utils/Axios';
 const EliteTable = (props) => {
 
   const defaultMaterialTheme = createTheme();
   const {
     tableColumns,
     tableData,
+    searchData,
     post,
     update,
     del,
@@ -70,7 +62,7 @@ const EliteTable = (props) => {
         <ThemeProvider theme={defaultMaterialTheme}>
           <MaterialTable
               columns={tableColumns}
-              data={tableData}
+              data={searchData}
               title=""
               icons={tableIcons}
               page={page}
@@ -92,7 +84,7 @@ const EliteTable = (props) => {
                 onRowUpdate: (newData, oldData) =>
                     new Promise((resolve, reject) => {
                       setTimeout(() => {
-                        update(newData, oldData.tableData.id);
+                        update(oldData.id, newData);
 
                         resolve();
                       }, 1000);
@@ -100,7 +92,7 @@ const EliteTable = (props) => {
                 onRowDelete: oldData =>
                     new Promise((resolve, reject) => {
                       setTimeout(() => {
-                        del(oldData.tableData.id);
+                        del(oldData.id);
 
                         resolve();
                       }, 1000);

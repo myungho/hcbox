@@ -18,6 +18,7 @@ class SecurityConfig {
         http.authorizeExchange { authorizeExchangeSpec ->
             authorizeExchangeSpec.pathMatchers("/**").permitAll()
         }
+            .csrf().disable()
             .cors().configurationSource(corsConfigurationSource())
         return http.build()
     }

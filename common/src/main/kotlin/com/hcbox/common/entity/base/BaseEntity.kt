@@ -13,11 +13,16 @@ import javax.persistence.MappedSuperclass
 @MappedSuperclass
 @EntityListeners(value = [AuditingEntityListener::class])
 abstract class BaseEntity(
-    @CreatedDate @Column(name = "created_date",
+    @CreatedDate @Column(
+        name = "created_date",
         nullable = false,
         updatable = false,
-        columnDefinition = "DATE") val createdDate: LocalDateTime = LocalDateTime.now(),
-    @LastModifiedDate @Column(name = "updated_date", columnDefinition = "DATE") val updatedDate: LocalDateTime = LocalDateTime.now(),
-    @CreatedBy @Column(name = "created_by", updatable = false) val createBy: Long = 1L,
-    @LastModifiedBy @Column(name = "updated_by") val updatedBy: Long = 1L,
+        columnDefinition = "DATE"
+    ) var createdDate: LocalDateTime = LocalDateTime.now(),
+    @LastModifiedDate @Column(
+        name = "updated_date",
+        columnDefinition = "DATE"
+    ) var updatedDate: LocalDateTime = LocalDateTime.now(),
+    @CreatedBy @Column(name = "created_by", updatable = false) var createBy: String = "",
+    @LastModifiedBy @Column(name = "updated_by") var updatedBy: String = "",
 ) : SoftDeleteBaseEntity()
