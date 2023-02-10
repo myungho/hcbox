@@ -1,9 +1,11 @@
 app:
   service:
     order:
-      baseUrl: "http://localhost:9090"
+      baseUrl: "http://localhost:9090/orders"
     product:
-      baseUrl: "http://localhost:9091"
+      baseUrl: "http://localhost:9091/products"
+  security:
+    clientId: "hcbox-app"
 
 server:
   port: 8088

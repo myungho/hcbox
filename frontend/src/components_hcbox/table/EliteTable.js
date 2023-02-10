@@ -29,7 +29,7 @@ const EliteTable = (props) => {
     update,
     del,
     page,
-    pageSize,
+    options,
     onChangePage,
     onChangeRowsPerPage
   } = props;
@@ -57,47 +57,57 @@ const EliteTable = (props) => {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>)
   };
 
+  const editable = () => {
+    let editable = {};
+    if(post !== undefined){
+      editable.onRowAdd = newData =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            post(newData);
+
+            resolve();
+          }, 1000);
+        })
+    }
+
+    if(update !== undefined) {
+      editable.onRowUpdate = (newData, oldData) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                update(oldData.id, newData);
+
+                resolve();
+              }, 1000);
+            })
+      }
+
+    if(del !== undefined) {
+      editable.onRowDelete = oldData =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                del(oldData.id);
+
+                resolve();
+              }, 1000);
+            })
+    }
+
+    return editable;
+  }
+
   return (
       <div style={{width: '100%', height: '100%'}}>
         <ThemeProvider theme={defaultMaterialTheme}>
           <MaterialTable
               columns={tableColumns}
-              data={searchData}
+              data={tableData === undefined ? searchData : tableData}
               title=""
               icons={tableIcons}
               page={page}
-              options={{
-                paginationType: "stepped",
-                pageSize: pageSize
-              }}
+              options={options}
               onChangePage={(event, newPage) => onChangePage(event, newPage)}
               onChangeRowsPerPage={event => onChangeRowsPerPage(event)}
-              editable={{
-                onRowAdd: newData =>
-                    new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                        post(newData);
-
-                        resolve();
-                      }, 1000);
-                    }),
-                onRowUpdate: (newData, oldData) =>
-                    new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                        update(oldData.id, newData);
-
-                        resolve();
-                      }, 1000);
-                    }),
-                onRowDelete: oldData =>
-                    new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                        del(oldData.id);
-
-                        resolve();
-                      }, 1000);
-                    })
-              }}
+              editable={editable()}
           />
         </ThemeProvider>
       </div>

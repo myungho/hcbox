@@ -18,33 +18,27 @@ class ProductService(
 ) {
     fun create(product: ProductDto.ProductUpsertDto): Mono<ProductDto.ProductReadDto> {
         return Mono.fromCallable { productRepository.save(mapper.toEntity(product)) }
-            .map { entity -> mapper.toDto(entity) }
-            .subscribeOn(Schedulers.boundedElastic()).log()
+            .map { entity -> mapper.toDto(entity) }.subscribeOn(Schedulers.boundedElastic()).log()
     }
 
     fun findById(id: Long): Mono<ProductDto.ProductReadDto> {
-        return Mono.fromCallable { productRepository.findById(id) }
-            .map { entity -> entity.get() }
+        return Mono.fromCallable { productRepository.findById(id) }.map { entity -> entity.get() }
             .switchIfEmpty(Mono.error(NotFoundException("Entity Not Found. id=$id")))
-            .map { entity -> mapper.toDto(entity) }
-            .subscribeOn(Schedulers.boundedElastic()).log()
+            .map { entity -> mapper.toDto(entity) }.subscribeOn(Schedulers.boundedElastic()).log()
     }
 
     fun delete(id: Long): Mono<Void> {
-        return Mono.fromCallable { productRepository.findById(id) }
-            .map { entity -> entity.get() }
+        return Mono.fromCallable { productRepository.findById(id) }.map { entity -> entity.get() }
             .switchIfEmpty(Mono.error(NotFoundException("Entity Not Found. id=$id")))
             .map { entity -> productRepository.delete(entity) }
             .subscribeOn(Schedulers.boundedElastic()).log().then()
     }
 
     fun update(
-        id: Long,
-        productUpsertDto: ProductDto.ProductUpsertDto
+        id: Long, productUpsertDto: ProductDto.ProductUpsertDto
     ): Mono<ProductDto.ProductReadDto> {
         val dto =
-            Mono.fromCallable { productRepository.findById(id) }
-                .map { entity -> entity.get() }
+            Mono.fromCallable { productRepository.findById(id) }.map { entity -> entity.get() }
                 .switchIfEmpty(Mono.error(NotFoundException("Product Entity Not Found. id=$id")))
                 .map { entity ->
                     entity.seasonType = productUpsertDto.seasonType!!
@@ -52,23 +46,26 @@ class ProductService(
                     entity.typeCode = productUpsertDto.typeCode!!
                     entity.price = productUpsertDto.price
                     productRepository.save(entity)
-                }
-                .onErrorMap { DuplicateKeyException("Duplicated product, $productUpsertDto") }
-                .map { e -> mapper.toDto(e) }
-                .subscribeOn(Schedulers.boundedElastic()).log()
+                }.onErrorMap { DuplicateKeyException("Duplicated product, $productUpsertDto") }
+                .map { e -> mapper.toDto(e) }.subscribeOn(Schedulers.boundedElastic()).log()
         return dto
     }
 
     fun retrieve(
-        schoolId: Long?,
-        seasonType: Integer?,
-        name: String?,
-        pageQuery: PageQueryDto
+        schoolId: Long?, seasonType: Integer?, name: String?, pageQuery: PageQueryDto
     ): Mono<Page<ProductDto.ProductReadDto>> {
         return Mono.fromCallable {
             productRepository.findAllByOptions(schoolId, seasonType, name, pageQuery.of())
+        }.map { page -> page }.subscribeOn(Schedulers.boundedElastic()).log()
+    }
+
+    fun findBySchoolId(id: Long): Mono<List<ProductDto.ProductReadDto>> {
+        return Mono.fromCallable {
+            productRepository.findBySchoolId(id)
+        }.map { entityList ->
+            entityList.map { entity -> mapper.toDto(entity) }
         }
-            .map { page -> page }
             .subscribeOn(Schedulers.boundedElastic()).log()
+
     }
 }

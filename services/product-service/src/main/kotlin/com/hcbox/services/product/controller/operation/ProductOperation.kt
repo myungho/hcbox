@@ -89,4 +89,15 @@ interface ProductOperation {
             `in` = ParameterIn.QUERY
         ) pageQuery: PageQueryDto
     ): Mono<Page<ProductDto.ProductReadDto>>
+
+    @GetMapping("/schools/{id}/list")
+    @Operation(summary = "리스트 조회", security = [SecurityRequirement(name = "bearerAuth")])
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
+    fun getList(
+        @Parameter(
+            description = "id",
+            `in` = ParameterIn.PATH,
+            required = true
+        ) @PathVariable id: Long,
+    ): Mono<List<ProductDto.ProductReadDto>>
 }

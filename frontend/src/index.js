@@ -28,7 +28,7 @@ export const eventLogger = (event, error) => {
 }
 
 export const tokenLogger = (tokens) => {
-  // console.log('onKeycloakTokens', tokens)
+  console.log('onKeycloakTokens', tokens)
 }
 
 root.render(

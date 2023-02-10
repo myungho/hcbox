@@ -73,4 +73,11 @@ class SchoolService(
             .map { page -> page }
             .subscribeOn(Schedulers.boundedElastic()).log()
     }
+
+    fun findAll(): Mono<List<SchoolDto.SchoolReadDto>> {
+        return Mono.fromCallable {
+            schoolRepository.findAll()
+        }.map { schoolEntityList -> schoolEntityList.map { mapper.toDto(it) } }
+            .subscribeOn(Schedulers.boundedElastic()).log()
+    }
 }

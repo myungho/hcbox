@@ -2,7 +2,6 @@
 import EliteTable from 'components_hcbox/table/EliteTable';
 // project import
 import MainCard from 'components/MainCard';
-import {useEffect, useState} from "react";
 import {del, get, put, post} from 'utils/Axios';
 import {useKeycloak} from '@react-keycloak/web';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,13 +11,7 @@ import {changePage, changePageSize} from 'store/reducers/table';
 
 const SchoolPage = () => {
   const {keycloak} = useKeycloak();
-  const [data, setData] = useState({
-    data: [],
-    page: 0,
-    totalCount: 0
-  });
 
-  const conditionData = "";
   const dispatch = useDispatch();
   const {page, pageSize} = useSelector((state) => state.table);
   const initColumns =
@@ -40,37 +33,35 @@ const SchoolPage = () => {
     });
   });
 
+  const options = {
+    paginationType: "stepped",
+    pageSize: pageSize,
+    search: false
+  }
+
   const postRequest = (newData) => {
-    const response = post('orders/schools', newData, keycloak.token);
+    post('orders/schools', newData, keycloak.token);
   }
 
   const deleteRequest = (id) => {
-    const response = del(`orders/schools/${id}`, keycloak.token);
+    del(`orders/schools/${id}`, keycloak.token);
   }
 
   const updateRequest = (id, newValue) => {
     console.info(newValue);
-    const response = put(`orders/schools/${id}`, newValue, keycloak.token);
+    put(`orders/schools/${id}`, newValue, keycloak.token);
   }
-
-  const [pageOption, setPageOption] = useState(
-      {
-        page: page,
-        pageSize: pageSize
-      }
-  );
 
   return (
       <MainCard title="학교 정보">
         <EliteTable
             tableColumns={initColumns}
-            tableData={data}
             searchData={searchData}
             post={postRequest}
             update={updateRequest}
             del={deleteRequest}
             page={page}
-            pageSize={pageSize}
+            options={options}
             onChangePage={(event, newPage) => {
               dispatch(changePage({page: newPage}));
             }}

@@ -109,7 +109,7 @@ class WebClientUtil(
         returnClazz: Class<T>,
         baseUrl: String,
         uri: String,
-        headers: HashMap<String?, String?>?
+        headers: HashMap<String, String>?
     ): T?{
         return get(returnClazz, baseUrl, uri, headers).block()
     }
@@ -122,7 +122,7 @@ class WebClientUtil(
         returnClazz: Class<T>,
         baseUrl: String,
         uri: String,
-        headers: HashMap<String?, String?>?
+        headers: HashMap<String, String>?
     ): Mono<T> {
         return webClient
             .mutate()

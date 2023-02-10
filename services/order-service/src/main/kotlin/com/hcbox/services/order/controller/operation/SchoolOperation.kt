@@ -79,4 +79,9 @@ interface SchoolOperation {
             `in` = ParameterIn.QUERY
         ) pageQuery: PageQueryDto
     ): Mono<Page<SchoolDto.SchoolReadDto>>
+
+    @GetMapping("/list")
+    @Operation(summary = "리스트 조회", security = [SecurityRequirement(name = "bearerAuth")])
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
+    fun getList(): Mono<List<SchoolDto.SchoolReadDto>>
 }

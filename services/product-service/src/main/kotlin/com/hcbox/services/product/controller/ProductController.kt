@@ -42,4 +42,8 @@ class ProductController(
     ): Mono<Page<ProductDto.ProductReadDto>> {
         return productService.retrieve(schoolId, seasonType, name, pageQuery)
     }
+
+    override fun getList(id: Long): Mono<List<ProductDto.ProductReadDto>> {
+        return productService.findBySchoolId(id)
+    }
 }

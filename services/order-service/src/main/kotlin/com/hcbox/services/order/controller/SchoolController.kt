@@ -39,4 +39,8 @@ class SchoolController(
     ): Mono<Page<SchoolDto.SchoolReadDto>> {
         return schoolService.retrieve(name, pageQuery)
     }
+
+    override fun getList(): Mono<List<SchoolDto.SchoolReadDto>> {
+        return schoolService.findAll();
+    }
 }
