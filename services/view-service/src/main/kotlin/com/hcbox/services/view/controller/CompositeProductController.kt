@@ -11,8 +11,8 @@ class CompositeProductController(
     private val compositeProductService: CompositeProductService
 ) : CompositeProductOperation {
     override fun retrieve(
-        id: Long
+        id: Long, gender: Int?, seasonType: Int?
     ): Mono<CompositeProductDto.CompositeProductReadDto> {
-        return compositeProductService.retrieve(id)
+        return compositeProductService.retrieve(id, gender, seasonType)
     }
 }

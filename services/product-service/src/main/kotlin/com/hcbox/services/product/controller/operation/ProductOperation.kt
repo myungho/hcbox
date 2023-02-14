@@ -79,7 +79,7 @@ interface ProductOperation {
         @Parameter(description = "시즌 타입") @RequestParam(
             value = "seasonType",
             required = false
-        ) seasonType: Integer?,
+        ) seasonType: Int?,
         @Parameter(description = "이름") @RequestParam(
             value = "name",
             required = false
@@ -99,5 +99,13 @@ interface ProductOperation {
             `in` = ParameterIn.PATH,
             required = true
         ) @PathVariable id: Long,
+        @Parameter(description = "성별") @RequestParam(
+            value = "gender",
+            required = false
+        ) gender: Int?,
+        @Parameter(description = "시즌 타입") @RequestParam(
+            value = "seasonType",
+            required = false
+        ) seasonType: Int?,
     ): Mono<List<ProductDto.ProductReadDto>>
 }

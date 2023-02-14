@@ -22,6 +22,14 @@ interface CompositeProductOperation {
             description = "id",
             `in` = ParameterIn.PATH,
             required = true
-        ) @PathVariable id: Long
+        ) @PathVariable id: Long,
+        @Parameter(description = "성별") @RequestParam(
+            value = "gender",
+            required = false
+        ) gender: Int?,
+        @Parameter(description = "시즌타입") @RequestParam(
+            value = "seasonType",
+            required = false
+        ) seasonType: Int?,
     ): Mono<CompositeProductDto.CompositeProductReadDto>
 }

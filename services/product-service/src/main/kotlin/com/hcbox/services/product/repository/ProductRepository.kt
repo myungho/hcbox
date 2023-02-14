@@ -7,6 +7,5 @@ import java.util.*
 
 @Repository
 interface ProductRepository : JpaRepository<ProductEntity, Long>, ProductRepositoryCustom {
-    fun findBySchoolId(id: Long): List<ProductEntity>
 }
 

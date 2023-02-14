@@ -19,6 +19,8 @@ import javax.persistence.*
 class ProductEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
+    @Column(name = "gender", length = 10)
+    var gender: Int? = null,
     @NotNull
     @Column(name = "SEASON_TYPE", length = 1, nullable = false)
     var seasonType: Int,

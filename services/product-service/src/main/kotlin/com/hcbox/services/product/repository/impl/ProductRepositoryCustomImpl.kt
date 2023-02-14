@@ -24,7 +24,7 @@ class ProductRepositoryCustomImpl(
 
     override fun findAllByOptions(
         schoolId: Long?,
-        seasonType: Integer?,
+        seasonType: Int?,
         name: String?,
         pageable: PageRequest
     ): Page<ProductDto.ProductReadDto> {
@@ -43,6 +43,24 @@ class ProductRepositoryCustomImpl(
         return PageImpl(content, pageable, totalSize.toLong())
     }
 
+    override fun findBySchoolIdAndGenderAndSeasonType(
+        id: Long,
+        gender: Int?,
+        seasonType: Int?
+    ): MutableList<ProductDto.ProductReadDto> {
+        return jpaQueryFactory
+            .selectFrom(qProductEntity)
+            .where(eqSchoolId(id), eqGender(gender), eqSeasonType(seasonType))
+            .fetch().stream().map { entity -> productMapper.toDto(entity) }
+            .collect(Collectors.toList())
+    }
+
+    private fun eqGender(gender: Int?): Predicate? {
+        gender ?: return null
+        return qProductEntity.gender.eq(gender)
+
+    }
+
     private fun eqSchoolId(schoolId: Long?): Predicate? {
         schoolId ?: return null
         return qProductEntity.schoolId.eq(schoolId)
@@ -55,7 +73,7 @@ class ProductRepositoryCustomImpl(
 
     }
 
-    private fun eqSeasonType(seasonType: Integer?): Predicate? {
+    private fun eqSeasonType(seasonType: Int?): Predicate? {
         seasonType ?: return null
         return qProductEntity.seasonType.eq(seasonType.toInt())
     }

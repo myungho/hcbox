@@ -52,20 +52,21 @@ class ProductService(
     }
 
     fun retrieve(
-        schoolId: Long?, seasonType: Integer?, name: String?, pageQuery: PageQueryDto
+        schoolId: Long?, seasonType: Int?, name: String?, pageQuery: PageQueryDto
     ): Mono<Page<ProductDto.ProductReadDto>> {
         return Mono.fromCallable {
             productRepository.findAllByOptions(schoolId, seasonType, name, pageQuery.of())
         }.map { page -> page }.subscribeOn(Schedulers.boundedElastic()).log()
     }
 
-    fun findBySchoolId(id: Long): Mono<List<ProductDto.ProductReadDto>> {
+    fun findBySchoolId(
+        id: Long,
+        gender: Int?,
+        seasonType: Int?
+    ): Mono<List<ProductDto.ProductReadDto>> {
         return Mono.fromCallable {
-            productRepository.findBySchoolId(id)
-        }.map { entityList ->
-            entityList.map { entity -> mapper.toDto(entity) }
+            productRepository.findBySchoolIdAndGenderAndSeasonType(id, gender, seasonType)
         }
             .subscribeOn(Schedulers.boundedElastic()).log()
-
     }
 }

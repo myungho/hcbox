@@ -11,6 +11,7 @@ const DashboardDefault = Loadable(lazy(() => import('pages_hcbox/dashboard')));
 const SamplePage = Loadable(lazy(() => import('pages_hcbox/extra-pages/SamplePage')));
 const ProductPage = Loadable(lazy(() => import('pages_hcbox/elite/ProductPage')));
 const SchoolPage = Loadable(lazy(() => import('pages_hcbox/elite/SchoolPage')));
+const OrderInfoPage = Loadable(lazy(() => import('pages_hcbox/elite/OrderInfoPage')));
 
 // render - utilities
 // ==============================|| MAIN ROUTING ||============================== //
@@ -31,6 +32,10 @@ const MainRoutes = {
                     element: <DashboardDefault />
                 }
             ]
+        },
+        {
+            path: 'order-info',
+            element: <OrderInfoPage />
         },
         {
             path: 'products',

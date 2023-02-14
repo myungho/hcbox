@@ -1,11 +1,12 @@
 // assets
-import { LoginOutlined, SkinOutlined, HomeOutlined } from '@ant-design/icons';
+import { LoginOutlined, SkinOutlined, HomeOutlined, FileAddOutlined } from '@ant-design/icons';
 
 // icons
 const icons = {
     LoginOutlined,
     SkinOutlined,
-    HomeOutlined
+    HomeOutlined,
+    FileAddOutlined
 };
 
 // ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //
@@ -15,6 +16,14 @@ const pages = {
     title: 'Management',
     type: 'group',
     children: [
+        {
+            id: 'order-info',
+            title: 'OrderInfo',
+            type: 'item',
+            url: '/order-info',
+            icon: icons.FileAddOutlined,
+            breadcrumbs: true
+        },
         {
             id: 'products',
             title: 'Product',

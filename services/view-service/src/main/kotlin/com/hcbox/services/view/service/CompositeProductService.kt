@@ -20,7 +20,7 @@ class CompositeProductService(
     private val objectMapper: ObjectMapper
 ) {
     fun retrieve(
-        id: Long
+        id: Long, gender: Int?, seasonType: Int?
     ): Mono<CompositeProductDto.CompositeProductReadDto> {
 
         return ReactiveSecurityContextHolder.getContext()
@@ -37,10 +37,11 @@ class CompositeProductService(
                     headers
                 )
 
+
                 val productListDto = webClientUtil.get(
                     Any::class.java,
                     appConfig.service.product.baseUrl!!,
-                    "/product-mgmt/schools/$id/list",
+                    "/product-mgmt/schools/$id/list?gender=${gender ?: ""}&seasonType=${seasonType ?: ""}",
                     headers
                 ) as Mono<List<ProductDto.ProductReadDto>>
 

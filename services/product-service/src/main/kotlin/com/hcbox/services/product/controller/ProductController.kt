@@ -6,8 +6,6 @@ import com.hcbox.services.product.controller.operation.ProductOperation
 import com.hcbox.services.product.service.ProductService
 import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.reactive.function.server.ServerResponse
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @RestController
@@ -36,14 +34,18 @@ class ProductController(
 
     override fun retrieve(
         schoolId: Long?,
-        seasonType: Integer?,
+        seasonType: Int?,
         name: String?,
         pageQuery: PageQueryDto
     ): Mono<Page<ProductDto.ProductReadDto>> {
         return productService.retrieve(schoolId, seasonType, name, pageQuery)
     }
 
-    override fun getList(id: Long): Mono<List<ProductDto.ProductReadDto>> {
-        return productService.findBySchoolId(id)
+    override fun getList(
+        id: Long,
+        gender: Int?,
+        seasonType: Int?
+    ): Mono<List<ProductDto.ProductReadDto>> {
+        return productService.findBySchoolId(id, gender, seasonType)
     }
 }
