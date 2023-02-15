@@ -108,4 +108,18 @@ interface ProductOperation {
             required = false
         ) seasonType: Int?,
     ): Mono<List<ProductDto.ProductReadDto>>
+
+    @GetMapping("/code/list")
+    @Operation(summary = "상품 코드 리스트 조회", security = [SecurityRequirement(name = "bearerAuth")])
+    @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Ok")])
+    fun getCodeList(
+        @Parameter(description = "성별") @RequestParam(
+            value = "gender",
+            required = false
+        ) gender: Int?,
+        @Parameter(description = "시즌 타입") @RequestParam(
+            value = "seasonType",
+            required = false
+        ) seasonType: Int?,
+    ): Mono<List<ProductDto.ProductTypeCodeReadDto>>
 }

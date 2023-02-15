@@ -2,6 +2,7 @@ package com.hcbox.services.product.controller
 
 import com.hcbox.api.dto.PageQueryDto
 import com.hcbox.api.dto.ProductDto
+import com.hcbox.common.constant.ProductTypeCode
 import com.hcbox.services.product.controller.operation.ProductOperation
 import com.hcbox.services.product.service.ProductService
 import org.springframework.data.domain.Page
@@ -47,5 +48,12 @@ class ProductController(
         seasonType: Int?
     ): Mono<List<ProductDto.ProductReadDto>> {
         return productService.findBySchoolId(id, gender, seasonType)
+    }
+
+    override fun getCodeList(
+        gender: Int?,
+        seasonType: Int?
+    ): Mono<List<ProductDto.ProductTypeCodeReadDto>> {
+        return productService.findProductTypeCodeListByOptions(gender, seasonType)
     }
 }

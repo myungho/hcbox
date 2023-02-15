@@ -3,10 +3,11 @@
 import MainCard from 'components/MainCard';
 import {useKeycloak} from "@react-keycloak/web";
 import React, {useEffect, useState} from "react";
+import moment from "moment";
 import {
-  SaveOutlined,
+  RightCircleFilled,
   RightCircleOutlined,
-  RightCircleFilled
+  SaveOutlined
 } from '@ant-design/icons';
 
 import {
@@ -24,7 +25,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import {getAsync} from "../../utils/Axios";
+import {getAsync, post} from "../../utils/Axios";
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -35,7 +36,7 @@ const OrderInfoPage = () => {
     jacket: true,
     shirts: true,
     pants: true
-  })
+  });
 
   const [orderInfo, setOrderInfo] = useState({
     schoolId: 1,
@@ -58,20 +59,58 @@ const OrderInfoPage = () => {
 
   const searchProduct = async () => {
     const response = await getAsync(
-        `/views/products/schools/${orderInfo.schoolId}/retrieve?gender=${orderInfo.gender}&seasonType=${orderInfo.seasonType}`,
+        `/products/product-mgmt/code/list?gender=${orderInfo.gender}&seasonType=${orderInfo.seasonType}`,
         null, keycloak.token)
-    console.info(response);
   };
 
-  const getOrderItemTemplate = () => {
-
-  }
-
   const save = async () => {
-    console.info(orderInfo);
+    // {
+    //   "studentName": "string",
+    //     "orderDate": "2023-02-15T08:00:12.713Z",
+    //     "phone": "string",
+    //     "address": "string",
+    //     "schoolId": 0,
+    //     "orderDetailList": [
+    //   {
+    //     "productId": 0,
+    //     "quantity": 0
+    //   }
+    // ]
+    // }
+    let arr = [];
+    if (checked.shirts) {
+      arr.push({
+        "shirtsSize": orderInfo.shirtsSize,
+        "shirtsCount": orderInfo.shirtsCount
+      })
+    }
+    if (checked.pants) {
+      arr.push({"pantsSize": orderInfo.pantsSize})
+    }
+    if (checked.jacketSize) {
+      arr.push({"jacketSize": orderInfo.jacketSize})
+    }
+    let body = {
+      studentName: orderInfo.studentName,
+      phone: orderInfo.phone,
+      schoolId: orderInfo.schoolId,
+      orderDetailList: arr
+    }
+
+    console.info(body);
+    const response = await post(
+        `/views/orders`,
+        body, keycloak.token)
   }
 
   useEffect(() => {
+    const month = moment().date();
+    if (month <= 3 && month === 11) {
+      orderInfo.seasonType = 1;
+    } else {
+      orderInfo.seasonType = 0;
+    }
+
     searchSchool();
   }, []);
 
@@ -89,7 +128,7 @@ const OrderInfoPage = () => {
           </Grid>
 
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <InputLabel variant="standard" htmlFor="school">학교</InputLabel>
               <NativeSelect
                   fullWidth
@@ -106,7 +145,20 @@ const OrderInfoPage = () => {
               </NativeSelect>
             </Grid>
 
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
+              <FormLabel id="seasonType-radio">Season</FormLabel>
+              <RadioGroup
+                  aria-labelledby="seasonType-radio"
+                  defaultValue={orderInfo.seasonType}
+                  name="radio-buttons-group"
+                  row={true}
+              >
+                <FormControlLabel value="0" control={<Radio/>} label="Summer"/>
+                <FormControlLabel value="1" control={<Radio/>} label="Winter"/>
+              </RadioGroup>
+            </Grid>
+
+            <Grid item xs={12} sm={2}>
               <FormLabel id="gender-radio">Gender</FormLabel>
               <RadioGroup
                   aria-labelledby="gender-radio"
@@ -170,7 +222,14 @@ const OrderInfoPage = () => {
             {
               checked.shirts ? (
                   <>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={2}>
+                      <Box display="flex" justifyContent="flex-end">
+                        <Typography variant="h6" gutterBottom>
+                          사이즈
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
                       <NativeSelect
                           fullWidth
                           label={"shirts-size"}
@@ -194,11 +253,13 @@ const OrderInfoPage = () => {
                       </NativeSelect>
                     </Grid>
                     <Grid item xs={12} sm={2}>
-                      <Typography variant="h6" gutterBottom>
-                        수량
-                      </Typography>
+                      <Box display="flex" justifyContent="flex-end">
+                        <Typography variant="h6" gutterBottom>
+                          수량
+                        </Typography>
+                      </Box>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={3}>
                       <NativeSelect
                           fullWidth
                           label={"shirts-count"}
@@ -228,7 +289,8 @@ const OrderInfoPage = () => {
             <Grid item xs={12} sm={2}>
               <Typography variant="h6" gutterBottom>
                 <FormControlLabel
-                    control={<Checkbox icon={<RightCircleOutlined/>}
+                    control={<Checkbox defaultChecked
+                                       icon={<RightCircleOutlined/>}
                                        checkedIcon={<RightCircleFilled/>}
                                        onChange={e => setChecked(
                                            {
@@ -244,7 +306,14 @@ const OrderInfoPage = () => {
               checked.pants ?
                   (
                       <>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={2}>
+                          <Box display="flex" justifyContent="flex-end">
+                            <Typography variant="h6" gutterBottom>
+                              사이즈
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
                           <NativeSelect
                               fullWidth
                               label={"pants-size"}
@@ -268,11 +337,13 @@ const OrderInfoPage = () => {
                           </NativeSelect>
                         </Grid>
                         <Grid item xs={12} sm={2}>
-                          <Typography variant="h6" gutterBottom>
-                            수량
-                          </Typography>
+                          <Box display="flex" justifyContent="flex-end">
+                            <Typography variant="h6" gutterBottom>
+                              수량
+                            </Typography>
+                          </Box>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={3}>
                           <NativeSelect
                               fullWidth
                               label={"pants-count"}
@@ -320,7 +391,14 @@ const OrderInfoPage = () => {
             {checked.jacket ?
                 (
                     <>
-                      <Grid item xs={12} sm={4}>
+                      <Grid item xs={12} sm={2}>
+                        <Box display="flex" justifyContent="flex-end">
+                          <Typography variant="h6" gutterBottom>
+                            사이즈
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={3}>
                         <NativeSelect
                             fullWidth
                             label={"jacket-size"}
@@ -344,11 +422,13 @@ const OrderInfoPage = () => {
                         </NativeSelect>
                       </Grid>
                       <Grid item xs={12} sm={2}>
-                        <Typography variant="h6" gutterBottom>
-                          수량
-                        </Typography>
+                        <Box display="flex" justifyContent="flex-end">
+                          <Typography variant="h6" gutterBottom>
+                            수량
+                          </Typography>
+                        </Box>
                       </Grid>
-                      <Grid item xs={12} sm={4}>
+                      <Grid item xs={12} sm={3}>
                         <NativeSelect
                             fullWidth
                             label={"jacket-count"}

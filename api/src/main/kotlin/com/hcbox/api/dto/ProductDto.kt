@@ -18,4 +18,11 @@ class ProductDto {
         var price: Long? = null
         var schoolId: Long? = null
     }
+
+    data class ProductTypeCodeReadDto (
+        var code: String? = null,
+        var seasonType: Int? = null,
+        var gender: Int? = null,
+        var desc: String? = null
+    )
 }

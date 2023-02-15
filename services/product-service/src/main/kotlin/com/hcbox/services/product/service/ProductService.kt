@@ -2,6 +2,7 @@ package com.hcbox.services.product.service
 
 import com.hcbox.api.dto.PageQueryDto
 import com.hcbox.api.dto.ProductDto
+import com.hcbox.common.constant.ProductTypeCode
 import com.hcbox.services.product.mapper.ProductMapper
 import com.hcbox.services.product.repository.ProductRepository
 import org.springframework.dao.DuplicateKeyException
@@ -68,5 +69,25 @@ class ProductService(
             productRepository.findBySchoolIdAndGenderAndSeasonType(id, gender, seasonType)
         }
             .subscribeOn(Schedulers.boundedElastic()).log()
+    }
+
+    fun findProductTypeCodeListByOptions(
+        gender: Int?,
+        seasonType: Int?
+    ): Mono<List<ProductDto.ProductTypeCodeReadDto>> {
+        return Mono.fromCallable {
+            ProductTypeCode.findListByOptions(seasonType!!, gender!!)
+                .map { productTypeCode ->
+                    ProductDto.ProductTypeCodeReadDto(
+                        productTypeCode.code,
+                        productTypeCode.seasonType,
+                        productTypeCode.gender,
+                        productTypeCode.desc
+                    )
+                }
+        }
+            .subscribeOn(Schedulers.boundedElastic()).log()
+
+
     }
 }
