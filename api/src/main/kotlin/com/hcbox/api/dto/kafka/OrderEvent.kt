@@ -11,7 +11,6 @@ data class OrderEvent(
     @Serializable(DateSerializer::class)
     val orderDate: Date,
     val phone: String,
-    val address: String,
     val schoolId: Long,
     val orderDetailList: List<OrderDetailUpsertDto>
 )

@@ -1,7 +1,7 @@
 package com.hcbox.services.order.service
 
 import com.hcbox.api.dto.OrderDto
-import com.hcbox.common.constant.StatusConstant
+import com.hcbox.common.constant.HcboxConstant
 import com.hcbox.common.http.NotFoundException
 import com.hcbox.services.order.mapper.OrderDetailMapper
 import com.hcbox.services.order.mapper.OrderMapper
@@ -33,7 +33,7 @@ class OrderService(
             val schoolEntity = schoolRepository.findById(orderUpsertDto.schoolId!!)
                 .orElseThrow { NotFoundException("School Entity Not found. id=${orderUpsertDto.schoolId}") }
             val orderEntity = orderMapper.toEntity(orderUpsertDto)
-            orderEntity.statusCode = StatusConstant.ORDER_STATUS_CODE_RECEIPT
+            orderEntity.statusCode = HcboxConstant.ORDER_STATUS_CODE_RECEIPT
             orderEntity.schoolEntity = schoolEntity
             val savedOrderEntity = orderRepository.save(orderEntity)
             orderUpsertDto.orderDetailList?.forEach { orderDetail ->
@@ -72,10 +72,9 @@ class OrderService(
                     val schoolEntity = schoolRepository.findById(orderUpsertDto.schoolId!!)
                         .orElseThrow { NotFoundException("School Entity Not Found. id=${orderUpsertDto.schoolId}") }
                     entity.studentName = orderUpsertDto.studentName
-                    entity.statusCode = StatusConstant.ORDER_STATUS_CODE_RECEIPT
+                    entity.statusCode = HcboxConstant.ORDER_STATUS_CODE_RECEIPT
                     entity.orderDate = orderUpsertDto.orderDate
                     entity.phone = orderUpsertDto.phone
-                    entity.address = orderUpsertDto.address
                     entity.schoolEntity = schoolEntity
 
                     orderRepository.save(entity)

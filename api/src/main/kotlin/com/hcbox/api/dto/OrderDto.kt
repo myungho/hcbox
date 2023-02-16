@@ -7,7 +7,6 @@ class OrderDto {
         var studentName: String? = null
         var orderDate: Date? = Date()
         var phone: String? = null
-        var address: String? = null
         var schoolId: Long? = null
         var orderDetailList: List<OrderDetailDto.OrderDetailUpsertDto>? = null
     }
@@ -18,7 +17,6 @@ class OrderDto {
         var statusCode: Long? = null
         var orderDate: Date? = null
         var phone: String? = null
-        var address: String? = null
         var school: SchoolDto.SchoolReadDto? = null
     }
 
@@ -28,7 +26,6 @@ class OrderDto {
         var statusCode: Long? = null
         var orderDate: Date? = null
         var phone: String? = null
-        var address: String? = null
         var school: SchoolDto.SchoolReadDto? = null
         var orderDetailList: List<OrderDetailDto.OrderDetailReadDto>? = null
     }

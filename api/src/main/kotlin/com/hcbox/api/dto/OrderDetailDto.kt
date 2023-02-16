@@ -12,6 +12,7 @@ class OrderDetailDto {
     @Serializable
     class OrderDetailUpsertDto{
         var productId: Long? = null
+        var size: Long? = null
         var quantity: Long? = null
     }
 }

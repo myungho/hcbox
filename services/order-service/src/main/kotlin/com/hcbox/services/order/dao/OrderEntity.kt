@@ -36,9 +36,6 @@ class OrderEntity : BaseEntity() {
     @Column(name = "PHONE", nullable = false, length = 15)
     var phone: String? = null
 
-    @Column(name = "ADDRESS")
-    var address: String? = null
-
     @ManyToOne
     @JoinColumn(name = "SCHOOL_ID", nullable = false)
     var schoolEntity: @NotNull SchoolEntity? = null
