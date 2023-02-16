@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface OrderRepository : JpaRepository<OrderEntity, Long> {
+interface OrderRepository : JpaRepository<OrderEntity, Long>, OrderRepositoryCustom {
     @EntityGraph(
         attributePaths = ["schoolEntity", "orderDetailEntityList"],
         type = EntityGraph.EntityGraphType.LOAD

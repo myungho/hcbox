@@ -1,8 +1,10 @@
 package com.hcbox.services.order.controller
 
 import com.hcbox.api.dto.OrderDto
+import com.hcbox.api.dto.PageQueryDto
 import com.hcbox.services.order.controller.operation.OrderOperation
 import com.hcbox.services.order.service.OrderService
+import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 
@@ -29,5 +31,14 @@ class OrderController(
 
     override fun delete(id: Long): Mono<Void> {
         return orderService.delete(id)
+    }
+
+    override fun retrieve(
+        studentName: String?,
+        statusCode: String?,
+        schoolId: Long?,
+        pageQuery: PageQueryDto
+    ): Mono<Page<OrderDto.OrderReadDto>> {
+        return orderService.retrieve(studentName, statusCode, schoolId, pageQuery)
     }
 }

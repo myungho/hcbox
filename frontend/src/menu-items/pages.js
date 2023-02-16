@@ -25,6 +25,14 @@ const pages = {
             breadcrumbs: true
         },
         {
+            id: 'order-list',
+            title: 'OrderInfoList',
+            type: 'item',
+            url: '/order-list',
+            icon: icons.FileAddOutlined,
+            breadcrumbs: true
+        },
+        {
             id: 'products',
             title: 'Product',
             type: 'item',

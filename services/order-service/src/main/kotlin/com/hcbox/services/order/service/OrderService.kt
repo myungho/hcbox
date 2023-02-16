@@ -1,6 +1,7 @@
 package com.hcbox.services.order.service
 
 import com.hcbox.api.dto.OrderDto
+import com.hcbox.api.dto.PageQueryDto
 import com.hcbox.common.constant.HcboxConstant
 import com.hcbox.common.http.NotFoundException
 import com.hcbox.services.order.mapper.OrderDetailMapper
@@ -10,6 +11,7 @@ import com.hcbox.services.order.repository.OrderRepository
 import com.hcbox.services.order.repository.SchoolRepository
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
@@ -83,5 +85,17 @@ class OrderService(
                 .map { e -> orderMapper.toAllDto(e) }
                 .subscribeOn(Schedulers.boundedElastic()).log()
         return dto
+    }
+
+    fun retrieve(
+        studentName: String?,
+        statusCode: String?,
+        schoolId: Long?,
+        pageQuery: PageQueryDto
+    ): Mono<Page<OrderDto.OrderReadDto>> {
+
+        return Mono.fromCallable {
+            orderRepository.findAllByOptions(studentName, statusCode, schoolId, pageQuery.of())
+        }.map { page -> page }.subscribeOn(Schedulers.boundedElastic()).log()
     }
 }

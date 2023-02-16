@@ -3,7 +3,6 @@
 import MainCard from 'components/MainCard';
 import {useKeycloak} from "@react-keycloak/web";
 import React, {useEffect, useState} from "react";
-import moment from "moment";
 import {
   RightCircleFilled,
   RightCircleOutlined,

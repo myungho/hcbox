@@ -67,7 +67,7 @@ const ProductPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <MainCard title="상품 정보">
+  return <MainCard title="상품 정보 리스트">
     <FormControl fullWidth>
       <Typography variant="h6" gutterBottom>
         학교

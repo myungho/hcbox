@@ -9,7 +9,7 @@ import {changePage, changePageSize} from 'store/reducers/table';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 
-const SchoolPage = () => {
+const OrderInfoListPage = () => {
   const {keycloak} = useKeycloak();
 
   const dispatch = useDispatch();
@@ -17,13 +17,15 @@ const SchoolPage = () => {
   const initColumns =
       [
         {title: '아이디', field: 'id', hidden: true},
-        {title: '이름', field: 'name'},
-        {title: '직원 이름', field: 'staffName'},
-        {title: '전화번호', field: 'phone'}
+        {title: '이름', field: 'studentName'},
+        {title: '전화번호', field: 'phone'},
+        {title: '학교', field: 'school.name'},
+        {title: '주문상태', field: 'statusCode'},
+        {title: '주문일시', field: 'orderDate'}
       ]
 
   const searchData = query => new Promise((resolve, reject) => {
-    get('/orders/schools/retrieve', {pageNo: query.page, pageSize: query.pageSize}, keycloak.token)
+    get('/orders/order-request/retrieve', {pageNo: query.page, pageSize: query.pageSize}, keycloak.token)
     .then(response => {
       resolve({
         data: response.data.content,
@@ -40,20 +42,20 @@ const SchoolPage = () => {
   }
 
   const postRequest = (newData) => {
-    post('orders/schools', newData, keycloak.token);
+    // post('orders/schools', newData, keycloak.token);
   }
 
   const deleteRequest = (id) => {
-    del(`orders/schools/${id}`, keycloak.token);
+    del(`orders/order-request/${id}`, keycloak.token);
   }
 
   const updateRequest = (id, newValue) => {
     console.info(newValue);
-    put(`orders/schools/${id}`, newValue, keycloak.token);
+    put(`orders/order-request/${id}`, newValue, keycloak.token);
   }
 
   return (
-      <MainCard title="학교 정보 리스트">
+      <MainCard title="주문 정보 리스트">
         <EliteTable
             tableColumns={initColumns}
             searchData={searchData}
@@ -73,4 +75,4 @@ const SchoolPage = () => {
   );
 };
 
-export default SchoolPage;
+export default OrderInfoListPage;
