@@ -28,7 +28,7 @@ interface CompositeOrderOperation {
         )]
     )
     fun create(
-        @RequestBody orderUpsertDto: @Valid OrderDto.OrderUpsertDto
+        @RequestBody orderUpsertDto: @Valid OrderDto.OrderCreateDto
     )
 
     @GetMapping("/{id}")

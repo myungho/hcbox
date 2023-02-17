@@ -29,7 +29,7 @@ interface OrderOperation {
         )]
     )
     fun create(
-        @RequestBody orderUpsertDto: @Valid OrderDto.OrderUpsertDto
+        @RequestBody orderUpsertDto: @Valid OrderDto.OrderCreateDto
     ): Mono<OrderDto.OrderReadDto>
 
     @GetMapping("/{id}")
@@ -52,7 +52,7 @@ interface OrderOperation {
             `in` = ParameterIn.PATH,
             required = true
         ) @PathVariable id: Long,
-        @RequestBody orderUpsertDto: @Valid OrderDto.OrderUpsertDto
+        @RequestBody orderUpsertDto: @Valid OrderDto.OrderUpdateDto
     ): Mono<OrderDto.OrderReadAllDto>
 
     @DeleteMapping("/{id}")

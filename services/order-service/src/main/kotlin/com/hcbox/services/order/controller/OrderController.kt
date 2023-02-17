@@ -13,7 +13,7 @@ class OrderController(
     private val orderService: OrderService
 ) : OrderOperation {
 
-    override fun create(orderUpsertDto: OrderDto.OrderUpsertDto): Mono<OrderDto.OrderReadDto> {
+    override fun create(orderUpsertDto: OrderDto.OrderCreateDto): Mono<OrderDto.OrderReadDto> {
         return orderService.create(orderUpsertDto);
     }
 
@@ -24,7 +24,7 @@ class OrderController(
 
     override fun update(
         id: Long,
-        orderUpsertDto: OrderDto.OrderUpsertDto
+        orderUpsertDto: OrderDto.OrderUpdateDto
     ): Mono<OrderDto.OrderReadAllDto> {
         return orderService.update(id, orderUpsertDto)
     }

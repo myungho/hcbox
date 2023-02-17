@@ -6,5 +6,5 @@ import org.mapstruct.Mapper
 
 @Mapper(componentModel = "spring")
 interface OrderMapper {
-    fun toEvent(dto: OrderDto.OrderUpsertDto): OrderEvent
+    fun toEvent(dto: OrderDto.OrderCreateDto): OrderEvent
 }

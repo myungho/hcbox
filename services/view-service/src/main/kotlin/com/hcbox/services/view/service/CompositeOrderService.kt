@@ -4,6 +4,7 @@ import com.hcbox.api.dto.OrderDto
 import com.hcbox.api.dto.ProductDto
 import com.hcbox.api.dto.composite.CompositeOrderDto
 import com.hcbox.api.dto.kafka.OrderEvent
+import com.hcbox.common.constant.HcboxConstant
 import com.hcbox.common.webclient.WebClientUtil
 import com.hcbox.services.view.config.AppConfig
 import com.hcbox.services.view.mapper.OrderMapper
@@ -19,12 +20,11 @@ import reactor.core.publisher.Mono
 class CompositeOrderService(
     private val streamBridge: StreamBridge,
     private val orderMapper: OrderMapper,
-    private val webClientUtil: WebClientUtil,
-    private val appConfig: AppConfig
 ) {
 
-    fun create(orderUpsertDto: OrderDto.OrderUpsertDto) {
+    fun create(orderUpsertDto: OrderDto.OrderCreateDto) {
         val orderEvent = orderMapper.toEvent(orderUpsertDto)
+        orderEvent.eventType = HcboxConstant.EVENT_TYPE_CREATE
         val record = Avro.default.toRecord(OrderEvent.serializer(), orderEvent)
         val message: Message<GenericRecord> = MessageBuilder.withPayload(record).build()
         streamBridge.send("orderEventProcessor-out-0", message)
