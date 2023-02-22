@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import reactor.core.publisher.Mono
 
 @Configuration
-class KeycloakConfiguration() {
+class KeycloakConfiguration {
 
     @Bean
     fun keycloakGrantedAuthoritiesConverter(@Value("\${app.security.clientId}") clientId: String?): Converter<Jwt, Collection<GrantedAuthority>> {
