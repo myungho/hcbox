@@ -20,8 +20,8 @@ class OpenApiDocConfig {
         private val log = LoggerFactory.getLogger(OpenApiDocConfig::class.java)
     }
 
-    @Value("\${springdoc.version}")
-    var version: String? = null
+//    @Value("\${springdoc.version}")
+//    var version: String? = null
 
     @Bean
     @Lazy(false)
@@ -51,7 +51,7 @@ class OpenApiDocConfig {
             .info(
                 Info()
                     .title("Gateway API")
-                    .version(version)
+//                    .version(version)
                     .license(License().name("Apache 2.0").url("http://springdoc.org"))
             )
     }

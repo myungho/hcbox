@@ -30,7 +30,7 @@ class OrderService(
     }
 
     @Transactional
-    fun create(orderUpsertDto: OrderDto.OrderUpsertDto): Mono<OrderDto.OrderReadDto> {
+    fun create(orderUpsertDto: OrderDto.OrderCreateDto): Mono<OrderDto.OrderReadDto> {
         return Mono.fromCallable {
             val schoolEntity = schoolRepository.findById(orderUpsertDto.schoolId!!)
                 .orElseThrow { NotFoundException("School Entity Not found. id=${orderUpsertDto.schoolId}") }
@@ -64,7 +64,7 @@ class OrderService(
 
     fun update(
         id: Long,
-        orderUpsertDto: OrderDto.OrderUpsertDto
+        orderUpsertDto: OrderDto.OrderUpdateDto
     ): Mono<OrderDto.OrderReadAllDto> {
         val dto =
             Mono.fromCallable { orderRepository.findById(id) }

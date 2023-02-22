@@ -13,6 +13,6 @@ interface OrderMapper {
     fun toAllDto(entity: OrderEntity): OrderDto.OrderReadAllDto
     @Mapping(source = "schoolEntity", target = "school")
     fun toDto(entity: OrderEntity): OrderDto.OrderReadDto
-    fun toDto(event: OrderEvent): OrderDto.OrderUpsertDto
-    fun toEntity(dto: OrderDto.OrderUpsertDto): OrderEntity
+    fun toDto(event: OrderEvent): OrderDto.OrderCreateDto
+    fun toEntity(dto: OrderDto.OrderCreateDto): OrderEntity
 }

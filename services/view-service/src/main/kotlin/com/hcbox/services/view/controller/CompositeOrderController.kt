@@ -12,7 +12,8 @@ class CompositeOrderController(
     private val compositeOrderService: CompositeOrderService
 ) : CompositeOrderOperation {
 
-    override fun create(orderUpsertDto: OrderDto.OrderUpsertDto) {
+    override fun create(orderUpsertDto: OrderDto.OrderCreateDto) {
+
         compositeOrderService.create(orderUpsertDto);
     }
 

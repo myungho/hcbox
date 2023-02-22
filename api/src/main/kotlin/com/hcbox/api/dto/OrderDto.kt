@@ -3,7 +3,15 @@ package com.hcbox.api.dto
 import java.util.*
 
 class OrderDto {
-    class OrderUpsertDto {
+    class OrderCreateDto {
+        var studentName: String? = null
+        var orderDate: Date? = Date()
+        var phone: String? = null
+        var schoolId: Long? = null
+        var orderDetailList: List<OrderDetailDto.OrderDetailUpsertDto>? = null
+    }
+    class OrderUpdateDto {
+        var id: Long? = null
         var studentName: String? = null
         var orderDate: Date? = Date()
         var phone: String? = null

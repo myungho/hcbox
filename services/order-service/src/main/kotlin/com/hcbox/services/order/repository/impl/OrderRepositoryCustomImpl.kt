@@ -23,9 +23,11 @@ class OrderRepositoryCustomImpl(
     private val qOrderEntity = QOrderEntity.orderEntity
 
     private fun containsStudentName(studentName: String?): Predicate? {
-        studentName ?: return null
-        return qOrderEntity.studentName.contains(studentName)
+        val studentName = studentName ?: ""
+        if (studentName.isEmpty())
+            return null
 
+        return qOrderEntity.studentName.contains(studentName)
     }
 
     override fun findAllByOptions(
@@ -51,12 +53,18 @@ class OrderRepositoryCustomImpl(
     }
 
     private fun eqSchoolId(schoolId: Long?): Predicate? {
-        schoolId ?: return null
+        val schoolId = schoolId ?: 0L
+        if (schoolId == 0L)
+            return null
+
         return qOrderEntity.schoolEntity.id.eq(schoolId)
     }
 
     private fun eqStatusCode(statusCode: String?): Predicate? {
-        statusCode ?: return null
+        val statusCode = statusCode ?: ""
+        if (statusCode.isEmpty())
+            return null
+
         return qOrderEntity.statusCode.eq(statusCode)
     }
 }

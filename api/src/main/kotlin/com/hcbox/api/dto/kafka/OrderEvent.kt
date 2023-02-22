@@ -7,10 +7,11 @@ import java.util.*
 
 @Serializable
 data class OrderEvent(
-    val studentName: String,
+    var eventType: String?,
+    var studentName: String,
     @Serializable(DateSerializer::class)
-    val orderDate: Date,
-    val phone: String,
-    val schoolId: Long,
-    val orderDetailList: List<OrderDetailUpsertDto>
+    var orderDate: Date,
+    var phone: String,
+    var schoolId: Long,
+    var orderDetailList: List<OrderDetailUpsertDto>
 )

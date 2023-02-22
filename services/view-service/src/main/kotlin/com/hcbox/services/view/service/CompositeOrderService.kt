@@ -1,30 +1,31 @@
 package com.hcbox.services.view.service
 
 import com.hcbox.api.dto.OrderDto
-import com.hcbox.api.dto.ProductDto
-import com.hcbox.api.dto.composite.CompositeOrderDto
 import com.hcbox.api.dto.kafka.OrderEvent
-import com.hcbox.common.webclient.WebClientUtil
-import com.hcbox.services.view.config.AppConfig
+import com.hcbox.common.constant.HcboxConstant
 import com.hcbox.services.view.mapper.OrderMapper
 import com.sksamuel.avro4k.Avro
 import org.apache.avro.generic.GenericRecord
+import org.slf4j.LoggerFactory
 import org.springframework.cloud.stream.function.StreamBridge
 import org.springframework.messaging.Message
 import org.springframework.messaging.support.MessageBuilder
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Mono
 
 @Service
 class CompositeOrderService(
     private val streamBridge: StreamBridge,
     private val orderMapper: OrderMapper,
-    private val webClientUtil: WebClientUtil,
-    private val appConfig: AppConfig
 ) {
 
-    fun create(orderUpsertDto: OrderDto.OrderUpsertDto) {
+    companion object {
+        private val log = LoggerFactory.getLogger(CompositeOrderService::class.java)
+    }
+
+    fun create(orderUpsertDto: OrderDto.OrderCreateDto) {
+        log.info("@@@ TEST")
         val orderEvent = orderMapper.toEvent(orderUpsertDto)
+        orderEvent.eventType = HcboxConstant.EVENT_TYPE_CREATE
         val record = Avro.default.toRecord(OrderEvent.serializer(), orderEvent)
         val message: Message<GenericRecord> = MessageBuilder.withPayload(record).build()
         streamBridge.send("orderEventProcessor-out-0", message)
