@@ -13,12 +13,10 @@ class CompositeOrderController(
 ) : CompositeOrderOperation {
 
     override fun create(orderUpsertDto: OrderDto.OrderCreateDto) {
-
         compositeOrderService.create(orderUpsertDto);
     }
 
     override fun read(id: Long): Mono<CompositeOrderDto.CompositeOrderReadAllDto> {
-//        return compositeOrderService.readById(id)
-        return null!! //todo
+        return compositeOrderService.readById(id)
     }
 }

@@ -29,6 +29,5 @@ class OrderEventProcessor(
             orderService.create(upsertDto).map { saved -> log.info("saved data. data=$saved") }
                 .subscribe()
         }
-
     }
 }

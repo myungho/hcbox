@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+  <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %X{CORR_ID}%-40.40logger{40} : %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="asyncConsoleAppender" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="consoleAppender"/>
+  </appender>
+
+  <appender name="traceAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %X{CORR_ID}TRACE_LOGGER [%X{TRACE_ID}] %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="asyncTraceAppender" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="traceAppender"/>
+  </appender>
+
+  <logger name="TRACE_LOGGER" level="DEBUG" additivity="false">
+    <appender-ref ref="asyncTraceAppender"/>
+  </logger>
+
+  <root level="DEBUG">
+    <appender-ref ref="asyncConsoleAppender"/>
+  </root>
+
+  <logger name="org.apache.kafka" level="INFO" />
+</configuration>

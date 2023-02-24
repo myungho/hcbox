@@ -34,13 +34,13 @@ class OrderRepositoryCustomImpl(
         studentName: String?,
         statusCode: String?,
         schoolId: Long?,
-        pageable: PageRequest
+        of: PageRequest
     ): Page<OrderDto.OrderReadDto> {
         val content = jpaQueryFactory
             .selectFrom(qOrderEntity)
             .where(containsStudentName(studentName), eqStatusCode(statusCode), eqSchoolId(schoolId))
-            .offset(pageable!!.offset)
-            .limit(pageable.pageSize.toLong())
+            .offset(of.offset)
+            .limit(of.pageSize.toLong())
             .fetch().stream().map { entity -> orderMapper.toDto(entity) }
             .collect(Collectors.toList())
 
@@ -49,7 +49,7 @@ class OrderRepositoryCustomImpl(
             .where(containsStudentName(studentName), eqStatusCode(statusCode), eqSchoolId(schoolId))
             .fetch().size
 
-        return PageImpl(content, pageable, totalSize.toLong())
+        return PageImpl(content, of, totalSize.toLong())
     }
 
     private fun eqSchoolId(schoolId: Long?): Predicate? {

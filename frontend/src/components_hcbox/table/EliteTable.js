@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {forwardRef} from 'react';
+import {forwardRef, useRef} from 'react';
 import MaterialTable from 'material-table';
 import {createTheme, ThemeProvider} from '@mui/material';
 import AddBox from '@material-ui/icons/AddBox';
@@ -17,10 +17,11 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import Info from '@material-ui/icons/Info';
 const EliteTable = (props) => {
-
   const defaultMaterialTheme = createTheme();
   const {
+    tableRef,
     tableColumns,
     tableData,
     searchData,
@@ -53,7 +54,8 @@ const EliteTable = (props) => {
     SortArrow: forwardRef(
         (props, ref) => <ArrowDownward {...props} ref={ref}/>),
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref}/>),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>)
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>),
+    Info: forwardRef((props, ref) => <Info {...props} ref={ref}/>)
   };
 
   const editable = () => {
@@ -98,6 +100,7 @@ const EliteTable = (props) => {
       <div style={{width: '100%', height: '100%'}}>
         <ThemeProvider theme={defaultMaterialTheme}>
           <MaterialTable
+              tableRef={tableRef}
               columns={tableColumns}
               data={tableData === undefined ? searchData : tableData}
               title=""
@@ -107,6 +110,15 @@ const EliteTable = (props) => {
               onChangePage={(event, newPage) => onChangePage(event, newPage)}
               onChangeRowsPerPage={event => onChangeRowsPerPage(event)}
               editable={editable()}
+              actions={[
+                {
+                  icon: Info,
+                  tooltip: 'Detail Order',
+                  onClick: (event, rowData) => {
+                    console.info(rowData);
+                  }
+                }
+              ]}
           />
         </ThemeProvider>
       </div>

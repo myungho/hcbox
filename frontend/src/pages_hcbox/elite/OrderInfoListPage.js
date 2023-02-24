@@ -3,7 +3,7 @@ import EliteTable from 'components_hcbox/table/EliteTable';
 // project import
 import MainCard from 'components/MainCard';
 import {del, get, put} from 'utils/Axios';
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {useKeycloak} from '@react-keycloak/web';
 import {useDispatch, useSelector} from 'react-redux';
 import {changePage, changePageSize} from 'store/reducers/table';
@@ -16,6 +16,7 @@ import {
   Typography
 } from "@mui/material";
 import {SaveOutlined} from "@ant-design/icons";
+import moment from "moment";
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const searchInit = {
@@ -26,6 +27,7 @@ const searchInit = {
 };
 
 const OrderInfoListPage = () => {
+  const tableRef = useRef();
   const {keycloak} = useKeycloak();
 
   const dispatch = useDispatch();
@@ -47,14 +49,29 @@ const OrderInfoListPage = () => {
         {...search, pageNo: query.page, pageSize: query.pageSize},
         keycloak.token)
     .then(response => {
+      let data = response.data.content;
+      data.map(element => {
+        if(element.statusCode === 1){
+          element.statusCode = "대기";
+        }
+
+        if(element.orderDate !== undefined){
+          element.orderDate = moment(element.orderDate).format("YYYY-MM-DD HH:mm:ss")
+        }
+      })
+
       resolve({
-        data: response.data.content,
+        data: data,
         page: response.data.number,
         totalCount: response.data.totalElements
       });
+
     });
   });
 
+  const searchQuery = () => {
+    tableRef.current.onQueryChange();
+  }
   const options = {
     paginationType: "stepped",
     pageSize: pageSize,
@@ -137,7 +154,7 @@ const OrderInfoListPage = () => {
                       {...search, statusCode: e.target.value});
                 }}
             >
-              <option key={99} value={""}></option>
+              <option key={99} value={""}>전체</option>
               <option key={0} value={0}>대기</option>
               <option key={1} value={1}>입고</option>
               <option key={2} value={2}>반출</option>
@@ -151,7 +168,7 @@ const OrderInfoListPage = () => {
                   type="submit"
                   variant="contained"
                   color="info"
-                  onClick={searchData}
+                  onClick={searchQuery}
               >
                 검색 &nbsp;
                 <SaveOutlined/>
@@ -162,9 +179,10 @@ const OrderInfoListPage = () => {
 
 
         <EliteTable
+            tableRef={tableRef}
             tableColumns={initColumns}
             searchData={searchData}
-            post={postRequest}
+            // post={postRequest}
             update={updateRequest}
             del={deleteRequest}
             page={page}

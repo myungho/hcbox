@@ -26,8 +26,7 @@ class CompositeProductService(
         return ReactiveSecurityContextHolder.getContext()
             .map { securityContext: SecurityContext ->
                 securityContext.authentication.principal as Jwt
-            }.doOnNext { jwt -> jwt.tokenValue }
-            .flatMap {
+            }.flatMap {
                 val headers = hashMapOf("Authorization" to "Bearer ${it.tokenValue}")
 
                 val schoolDto = webClientUtil.get(
@@ -36,7 +35,6 @@ class CompositeProductService(
                     "/schools/$id",
                     headers
                 )
-
 
                 val productListDto = webClientUtil.get(
                     Any::class.java,
